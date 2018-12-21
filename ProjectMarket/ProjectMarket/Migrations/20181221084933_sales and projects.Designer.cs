@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20181221084933_sales and projects")]
+    partial class salesandprojects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

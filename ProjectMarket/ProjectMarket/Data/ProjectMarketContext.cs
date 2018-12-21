@@ -19,5 +19,9 @@ namespace ProjectMarket.Models
         public DbSet<ProjectMarket.Models.FieldOfStudy> FieldOfStudy { get; set; }
 
         public DbSet<ProjectMarket.Models.User> User { get; set; }
+
+        public DbSet<ProjectMarket.Models.Project> Project { get; set; }
+
+        public DbSet<ProjectMarket.Models.Sale> Sale { get; set; }
     }
 }

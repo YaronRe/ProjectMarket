@@ -23,5 +23,7 @@ namespace ProjectMarket.Models
         public FieldOfStudy FieldOfStudy { get; set; }
 
         public AcademicInstitute AcademicInstitute { get; set; }
+
+        public User Owner { get; set; }
     }
 }

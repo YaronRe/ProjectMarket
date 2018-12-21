@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,10 +16,12 @@ namespace ProjectMarket.Models
         [MinLength(4)]
         [MaxLength(20)]
         [RegularExpression(@"\w+")]
+        [DisplayName("Name")]
         public string UserName { get; set; }
 
         [Required]
         [EmailAddress]
+        [DisplayName("E-Mail")]
         public string EMail { get; set; }
 
         [Required]

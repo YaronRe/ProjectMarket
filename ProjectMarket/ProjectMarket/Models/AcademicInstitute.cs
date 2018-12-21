@@ -11,7 +11,7 @@ namespace ProjectMarket.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        [MinLength(4)]
+        [MinLength(3)]
         [MaxLength(20)]
         public string Name { get; set; }
     }

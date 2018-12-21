@@ -17,5 +17,9 @@ namespace ProjectMarket.Models
         public Tuple<double,double> MeetingLocation{ get; set; }
         [Range(1,5)]
         public int Rank { get; set; }
+        public User Seller { get; set; }
+        public User Buyer { get; set; }
+        public Project Project { get; set; }
+        public AcademicInstitute AcademicInstitute { get; set; }
     }
 }

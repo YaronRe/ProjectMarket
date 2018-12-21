@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 
 namespace ProjectMarket.Models
@@ -19,5 +20,8 @@ namespace ProjectMarket.Models
         [MaxLength(300)]
         public string Description { get; set; }
 
+        public FieldOfStudy FieldOfStudy { get; set; }
+
+        public AcademicInstitute AcademicInstitute { get; set; }
     }
 }

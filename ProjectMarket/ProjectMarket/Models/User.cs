@@ -23,5 +23,6 @@ namespace ProjectMarket.Models
 
         [Required]
         public bool IsAdmin { get; set; }
+
     }
 }

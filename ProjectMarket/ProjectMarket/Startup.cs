@@ -34,7 +34,8 @@ namespace ProjectMarket
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddDbContext<ProjectMarketContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ProjectMarketContext")));
         }
@@ -53,7 +54,7 @@ namespace ProjectMarket
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

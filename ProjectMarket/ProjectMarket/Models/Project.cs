@@ -15,15 +15,21 @@ namespace ProjectMarket.Models
         [Required]
         [MinLength(4)]
         [MaxLength(50)]
+        [Display(Name = "שם")]
         public string Name { get; set; }
 
         [MaxLength(300)]
+        [Display(Name = "תאור")]
         public string Description { get; set; }
 
+        public int FieldOfStudyId { get; set; }
+        [Display(Name = "תחום")]
         public FieldOfStudy FieldOfStudy { get; set; }
 
+        public int AcademicInstituteId { get; set; }
+        [Display(Name ="מוסד אקדמי")]
         public AcademicInstitute AcademicInstitute { get; set; }
-
+        
         public User Owner { get; set; }
     }
 }

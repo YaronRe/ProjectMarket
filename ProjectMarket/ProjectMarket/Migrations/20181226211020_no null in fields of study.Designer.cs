@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20181226211020_no null in fields of study")]
+    partial class nonullinfieldsofstudy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,10 +124,6 @@ namespace ProjectMarket.Migrations
                         .IsRequired();
 
                     b.Property<bool>("IsAdmin");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(200);
 
                     b.Property<string>("UserName")
                         .IsRequired()

@@ -19,9 +19,17 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Projects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int UserId = 0)
         {
-            return View(await _context.Project.ToListAsync());
+            if (UserId == 0)
+            {
+                return View(await _context.Project.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Project.Where(x=> x.Owner.Id == UserId).ToListAsync());
+            }
+            
         }
 
         // GET: Projects/Details/5
@@ -33,6 +41,7 @@ namespace ProjectMarket.Controllers
             }
 
             var project = await _context.Project
+                .Include(x => x.AcademicInstitute).Include(x => x.FieldOfStudy)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (project == null)
             {
@@ -45,6 +54,10 @@ namespace ProjectMarket.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
+            IEnumerable<FieldOfStudy> fieldsOfStudy = _context.FieldOfStudy.ToList();
+            IEnumerable<AcademicInstitute> academicInstitutes = _context.AcademicInstitute.ToList();
+            ViewBag.FieldsOfStudy = fieldsOfStudy;
+            ViewBag.AcademicInstitutes = academicInstitutes;
             return View();
         }
 
@@ -53,7 +66,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,FieldOfStudyId,AcademicInstituteId")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -72,11 +85,17 @@ namespace ProjectMarket.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Project.FindAsync(id);
+            var project = await _context.Project
+                .Include(x => x.AcademicInstitute).Include(x => x.FieldOfStudy)
+                .SingleOrDefaultAsync(x=> x.Id == id);
             if (project == null)
             {
                 return NotFound();
             }
+            IEnumerable<FieldOfStudy> fieldsOfStudy = _context.FieldOfStudy.ToList();
+            IEnumerable<AcademicInstitute> academicInstitutes = _context.AcademicInstitute.ToList();
+            ViewBag.FieldsOfStudy = fieldsOfStudy;
+            ViewBag.AcademicInstitutes = academicInstitutes;
             return View(project);
         }
 
@@ -85,7 +104,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,FieldOfStudyId,AcademicInstituteId")] Project project)
         {
             if (id != project.Id)
             {

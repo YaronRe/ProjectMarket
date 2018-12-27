@@ -22,6 +22,18 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AcademicInstitute)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AcademicInstitute.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FieldOfStudy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FieldOfStudy.Name)
+        </dd>
     </dl>
 </div>
 <div>

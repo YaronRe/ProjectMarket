@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,7 +53,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,EMail,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,UserName,EMail,Password,IsAdmin")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,EMail,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,EMail,Password,IsAdmin")] User user)
         {
             if (id != user.Id)
             {

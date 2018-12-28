@@ -144,9 +144,16 @@ namespace ProjectMarket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public ActionResult Statistics() {
+            
+            return Json(new object [] { new {Product = "Shoes2",Count = 3},new {Product = "Shoes", Count= 5}, new {Product= "Shoes1",Count= 8}, new {Product= "Ssh",Count= 8}, new {Product= "Sh",Count= 8}, new {Product= "Sho",Count= 8}});
+        }
+        
         private bool FieldOfStudyExists(int id)
         {
             return _context.FieldOfStudy.Any(e => e.Id == id);
         }
+
+
     }
 }

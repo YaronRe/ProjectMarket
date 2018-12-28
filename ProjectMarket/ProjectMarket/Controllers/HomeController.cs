@@ -4,16 +4,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using ProjectMarket.Services;
+
 using Microsoft.AspNetCore.Mvc;
 using ProjectMarket.Models;
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace ProjectMarket.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ProjectMarketContext _context;
+        private IUserService _userService;
+        
+        
+        public void UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
+        
         public HomeController(ProjectMarketContext context)
         {
             _context = context;
@@ -29,19 +40,15 @@ namespace ProjectMarket.Controllers
             return View();
         }
 
-        [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind("UserName,Password")] User user)
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody]User userParam)
         {
-            var authenticatedUser = user.Login(_context);
-            if (authenticatedUser == null)
-            {
-                // TODO send to login with failedToAuthenticate=true
-            }
-           
-            // TODO save the user in session somehow
-            return null;
+            var user = await _userService.Authenticate(userParam.UserName, userParam.Password);
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+            
+            return Ok(user);
         }
 
         public IActionResult About()

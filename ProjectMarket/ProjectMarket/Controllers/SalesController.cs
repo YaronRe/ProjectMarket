@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
 {
+    [Authorize]
     public class SalesController : Controller
     {
         private readonly ProjectMarketContext _context;

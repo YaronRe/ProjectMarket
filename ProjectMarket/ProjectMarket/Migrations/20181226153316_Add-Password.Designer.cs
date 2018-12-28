@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20181226153316_Add-Password")]
+    partial class AddPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,12 +57,12 @@ namespace ProjectMarket.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AcademicInstituteId");
+                    b.Property<int?>("AcademicInstituteId");
 
                     b.Property<string>("Description")
                         .HasMaxLength(300);
 
-                    b.Property<int>("FieldOfStudyId");
+                    b.Property<int?>("FieldOfStudyId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -140,13 +142,11 @@ namespace ProjectMarket.Migrations
                 {
                     b.HasOne("ProjectMarket.Models.AcademicInstitute", "AcademicInstitute")
                         .WithMany()
-                        .HasForeignKey("AcademicInstituteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AcademicInstituteId");
 
                     b.HasOne("ProjectMarket.Models.FieldOfStudy", "FieldOfStudy")
                         .WithMany()
-                        .HasForeignKey("FieldOfStudyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FieldOfStudyId");
 
                     b.HasOne("ProjectMarket.Models.User", "Owner")
                         .WithMany()

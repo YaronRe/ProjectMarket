@@ -1,13 +1,20 @@
-﻿
-@{
-    ViewData["Title"] = "Login";
+﻿@{
+    ViewData["Title"] = "התחברות";
 }
 
-<h2>התחברות</h2>
+@section Styles {
+    <link href="@Url.Content("~/css/login.css")" rel="stylesheet" type="text/css" />
+}
 
+<div class="login-section">
 <form asp-action="Login">
-    <input type="text" min="4" max="20" name="UserName" id="username" placeholder="אנא הכנס שם משתמש" />
-    <input type="password" min="8" max="200" name="Password" id="password" placeholder="אנא הכנס סיסמה" />
-    <input type="submit" name="Submit" value="שלח" />
+    <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+  <div class="form-group">
+    <input class="form-control" type="text" min="4" max="20" name="UserName" id="username" placeholder="שם משתמש" />
+  </div>
+  <div class="form-group">
+    <input class="form-control" type="password" min="8" max="200" name="Password" id="password" placeholder="סיסמה" />
+  </div>
+  <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">שלח</button>
 </form>
-
+</div>

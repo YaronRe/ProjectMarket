@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectMarket.Models;
 using Microsoft.AspNetCore.Http.Extensions;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ProjectMarket.Controllers
 {
@@ -32,16 +35,76 @@ namespace ProjectMarket.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind("UserName,Password")] User user)
+        public async Task<IActionResult> Login([Bind("UserName,Password")] User user)
         {
-            var authenticatedUser = user.Login(_context);
-            if (authenticatedUser == null)
+            try
             {
-                // TODO send to login with failedToAuthenticate=true
+                
+                var authenticatedUser = user.Login(_context);
+                if (authenticatedUser == null)
+                {
+                    // TODO send to login with failedToAuthenticate=true
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View();
+                }
+                
+
+                // TODO save the user in session somehow
+
+                #region snippet1
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, authenticatedUser.UserName),
+                    new Claim(ClaimTypes.Email,authenticatedUser.EMail)
+                };
+
+                if (user.IsAdmin)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+                }
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    //AllowRefresh = <bool>,
+                    // Refreshing the authentication session should be allowed.
+
+                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    // The time at which the authentication ticket expires. A 
+                    // value set here overrides the ExpireTimeSpan option of 
+                    // CookieAuthenticationOptions set with AddCookie.
+
+                    IsPersistent = true,
+                    // Whether the authentication session is persisted across 
+                    // multiple requests. Required when setting the 
+                    // ExpireTimeSpan option of CookieAuthenticationOptions 
+                    // set with AddCookie. Also required when setting 
+                    // ExpiresUtc.
+
+                    IssuedUtc = DateTimeOffset.Now,
+                    // The time at which the authentication ticket was issued.
+
+                    //RedirectUri = <string>
+                    // The full path or absolute URI to be used as an http 
+                    // redirect response value.
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                #endregion
+                return RedirectToAction("Index","Home");
             }
-           
-            // TODO save the user in session somehow
-            return null;
+            catch (Exception e)
+            {
+
+                //log failure
+            }
+
+            // Something failed. Redisplay the form.
+            return View();
         }
 
         public IActionResult About()

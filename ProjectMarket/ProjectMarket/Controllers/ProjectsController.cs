@@ -19,15 +19,15 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Projects
-        public async Task<IActionResult> Index(int UserId = 0)
+        public async Task<IActionResult> Index(int? userId)
         {
-            if (UserId == 0)
+            if (!userId.HasValue)
             {
                 return View(await _context.Project.ToListAsync());
             }
             else
             {
-                return View(await _context.Project.Where(x=> x.Owner.Id == UserId).ToListAsync());
+                return View(await _context.Project.Where(x=> x.Owner.Id == userId).ToListAsync());
             }
             
         }

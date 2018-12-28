@@ -16,7 +16,7 @@ namespace ProjectMarket.Models
         [MinLength(4)]
         [MaxLength(20)]
         [RegularExpression(@"\w+")]
-        [DisplayName("Name")]
+        [DisplayName("שם")]
         public string UserName { get; set; }
 
         [Required]

@@ -13,6 +13,7 @@ namespace ProjectMarket.Models
         [Required]
         [MinLength(4)]
         [MaxLength(20)]
+        [Display(Name = "שם")]
         public string Name { get; set; }
     }
 }

@@ -20,8 +20,18 @@ namespace ProjectMarket.Models
         [MinLength(4)]
         [MaxLength(20)]
         [RegularExpression(@"\w+")]
-        [DisplayName("שם")]
+        [DisplayName("שם משתמש")]
         public string UserName { get; set; }
+
+        [MaxLength(20)]
+        [DisplayName("שם פרטי")]
+        public string FirstName { get; set; }
+        [MaxLength(20)]
+        [DisplayName("שם משפחה")]
+        public string LastName { get; set; }
+
+        [DisplayName("שם")]
+        public string FullName => $"{FirstName} {LastName}";
 
         [Required]
         [MinLength(8)]

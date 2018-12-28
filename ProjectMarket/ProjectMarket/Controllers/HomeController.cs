@@ -58,7 +58,7 @@ namespace ProjectMarket.Controllers
                     new Claim(ClaimTypes.Email,authenticatedUser.EMail)
                 };
 
-                if (user.IsAdmin)
+                if (authenticatedUser.IsAdmin)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
                 }

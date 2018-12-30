@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly ProjectMarketContext _context;
@@ -19,19 +21,17 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Projects
-        public async Task<IActionResult> Index(int? userId)
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
-            if (!userId.HasValue)
-            {
-                return View(await _context.Project.ToListAsync());
-            }
-            else
-            {
-                return View(await _context.Project.Where(x=> x.Owner.Id == userId).ToListAsync());
-            }
-            
+            return View(await _context.Project.ToListAsync());
         }
-
+        
+        public async Task<IActionResult> MyProjects()
+        {
+            int userId = int.Parse(HttpContext.User.Claims.First(x => x.Type == "UserId").Value);
+            return View(await _context.Project.Where(x => x.OwnerId == userId).ToListAsync());
+        }
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -68,6 +68,7 @@ namespace ProjectMarket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,FieldOfStudyId,AcademicInstituteId")] Project project)
         {
+            project.OwnerId = int.Parse(HttpContext.User.Claims.First(x => x.Type == "UserId").Value);
             if (ModelState.IsValid)
             {
                 _context.Add(project);
@@ -87,7 +88,7 @@ namespace ProjectMarket.Controllers
 
             var project = await _context.Project
                 .Include(x => x.AcademicInstitute).Include(x => x.FieldOfStudy)
-                .SingleOrDefaultAsync(x=> x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
             if (project == null)
             {
                 return NotFound();

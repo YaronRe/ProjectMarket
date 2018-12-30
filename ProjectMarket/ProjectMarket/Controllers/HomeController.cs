@@ -47,9 +47,6 @@ namespace ProjectMarket.Controllers
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return View();
                 }
-                
-
-                // TODO save the user in session somehow
 
                 #region snippet1
                 var claims = new List<Claim>
@@ -99,7 +96,7 @@ namespace ProjectMarket.Controllers
             }
             catch (Exception e)
             {
-
+                ModelState.AddModelError(string.Empty, "Internal error at login.");
                 //log failure
             }
 
@@ -107,6 +104,14 @@ namespace ProjectMarket.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Logoff()
+        {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                await HttpContext.SignOutAsync();
+            }
+            return RedirectToAction("Index", "Home");
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

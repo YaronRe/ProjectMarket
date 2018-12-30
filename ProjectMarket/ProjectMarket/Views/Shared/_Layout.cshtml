@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,7 +32,21 @@
                     <li><a asp-area="" asp-controller="AcademicInstitutes" asp-action="Index">מוסדות אקדמאיים</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">אודות</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">צור קשר</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Login">התחברות</a></li>
+
+                    <li style="color:white">
+                        שלום
+                        @if (!Context.User.Identity.IsAuthenticated)
+                        {
+                            <b>אורח</b>
+                            <a asp-area="" asp-controller="Home" asp-action="Login">התחברות</a>
+                        }
+                        else
+                        {
+                            <b>@Context.User.Identity.Name </b>
+                            <a asp-area="" asp-controller="Home" asp-action="Logoff">התנתקות</a>
+                        }
+                    </li>
+
                 </ul>
             </div>
         </div>

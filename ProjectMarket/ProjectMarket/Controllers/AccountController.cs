@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
@@ -27,6 +28,11 @@ namespace ProjectMarket.Controllers
                 await HttpContext.SignOutAsync();
             }
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult AccessDenied(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
         }
 
         [HttpPost]
@@ -111,9 +117,17 @@ namespace ProjectMarket.Controllers
             return View();
         }
 
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.Id == ClaimsExtension.GetUserId(HttpContext));
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
     }
 }

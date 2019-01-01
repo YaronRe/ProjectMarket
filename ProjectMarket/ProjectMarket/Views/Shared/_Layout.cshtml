@@ -30,12 +30,12 @@
                         @if (Context.User.Identity.IsAuthenticated)
                         {
                             <b>@Context.User.Identity.Name </b>
-                            <a asp-area="" asp-controller="Account" asp-action="Logoff">התנתקות</a>
+                            <a asp-area="" asp-controller="Account" asp-action="Logoff">התנתק</a>
                         }
                         else
                         {
                             <b>אורח</b>
-                            <a asp-area="" asp-controller="Account" asp-action="Login">התחברות</a>
+                            <a asp-area="" asp-controller="Account" asp-action="Login">התחבר</a>
                         }
                     </li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">דף הבית</a></li>
@@ -44,13 +44,14 @@
                     {
                         <li><a asp-area="" asp-controller="Projects" asp-action="MyProjects">הפרויקטים שלי</a></li>
                     }
+                    @if (ClaimsExtension.IsAdmin(Context))
+                    {
+                        <li><a asp-area="" asp-controller="Users" asp-action="Index">משתמשים</a></li>
+                    }
                     <li><a asp-area="" asp-controller="FieldOfStudies" asp-action="Index">תחומים</a></li>
                     <li><a asp-area="" asp-controller="AcademicInstitutes" asp-action="Index">מוסדות אקדמאיים</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">אודות</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">צור קשר</a></li>
-
-
-
                 </ul>
             </div>
         </div>

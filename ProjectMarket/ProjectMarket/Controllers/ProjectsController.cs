@@ -29,7 +29,14 @@ namespace ProjectMarket.Controllers
         
         public async Task<IActionResult> MyProjects()
         {
-            int userId = int.Parse(HttpContext.User.Claims.First(x => x.Type == "UserId").Value);
+            int userId = ClaimsExtension.GetUserId(HttpContext);
+
+            // No user id redirect to login
+            if (userId < 0)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View(await _context.Project.Where(x => x.OwnerId == userId).ToListAsync());
         }
         // GET: Projects/Details/5
@@ -68,7 +75,15 @@ namespace ProjectMarket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,FieldOfStudyId,AcademicInstituteId")] Project project)
         {
-            project.OwnerId = int.Parse(HttpContext.User.Claims.First(x => x.Type == "UserId").Value);
+            int userId = ClaimsExtension.GetUserId(HttpContext);
+
+            // No user id redirect to login
+            if (userId < 0)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            project.OwnerId = userId;
             if (ModelState.IsValid)
             {
                 _context.Add(project);

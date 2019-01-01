@@ -49,12 +49,12 @@ namespace ProjectMarket.Controllers
                 {
                     new Claim(ClaimTypes.Name, authenticatedUser.UserName),
                     new Claim(ClaimTypes.Email,authenticatedUser.EMail),
-                    new Claim("UserId", authenticatedUser.Id.ToString())
+                    new Claim(ClaimsExtension.UserId, authenticatedUser.Id.ToString())
                 };
 
                 if (authenticatedUser.IsAdmin)
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+                    claims.Add(new Claim(ClaimTypes.Role, ClaimsExtension.Admin));
                 }
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);

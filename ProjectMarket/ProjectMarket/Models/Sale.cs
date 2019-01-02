@@ -15,8 +15,6 @@ namespace ProjectMarket.Models
         [Range(0, 100)]
         [Display(Name ="ציון")]
         public int ProjectsGrade { get; set; }
-        public double MeetingLocationX { get; set; }
-        public double MeetingLocationY { get; set; }
         [Range(1, 5)]
         [Display(Name = "דירוג")]
         public int Rank { get; set; }
@@ -25,5 +23,8 @@ namespace ProjectMarket.Models
         public Project Project { get; set; }
         [Display(Name = "מוסד אקדמי")]
         public AcademicInstitute AcademicInstitute { get; set; }
+        public Meeting Meeting { get; set; }
+        public bool AcceptedBySeller { get; set; }
+        public bool AcceptedByBuyer { get; set; }
     }
 }

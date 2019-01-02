@@ -38,11 +38,8 @@ namespace ProjectMarket.Models
         [MaxLength(200)]
         [DisplayName("Password")]
         public string Password {
-            get { return _password; }
-            set
-            {
-                _password = HashPassword(value);
-            }
+            get => _password;
+            set => _password = HashPassword(value);
         }
 
         [Required]

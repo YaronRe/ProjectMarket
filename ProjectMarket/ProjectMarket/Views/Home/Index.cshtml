@@ -7,31 +7,7 @@
 
     <script>
         d3.json("FieldOfStudies/Statistics", function (data) {
-
             console.log(data);
-            
-//            var data = [
-//                {
-//                    product: "Shoes",
-//                    count: 5
-//                }, {
-//                    product: "Shirts",
-//                    count: 9
-//                }, {
-//                    product: "Pants",
-//                    count: 3
-//                }, {
-//                    product: "Ties",
-//                    count: 1
-//                }, {
-//                    product: "Socks",
-//                    count: 7
-//                }, {
-//                    product: "Jackets",
-//                    count: 2
-//                }];
-//            console.log(data);
-
             var margin = {
                     top: 20,
                     right: 20,
@@ -66,11 +42,11 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             x.domain(data.map(function(d) {
-                return d.product;
+                return d.FieldOfStudie;
             }));
   
             y.domain([d3.max(data, function(d) {
-                return d.count;
+                return d.Count;
             }), 0]); 
 
             svg.append("g")
@@ -94,7 +70,7 @@
                 .attr("class", "bar")
   
                 .attr("x", function(d) {
-                    return x(d.product);
+                    return x(d.fieldOfStudie);
                 })
                 .attr("width", x.rangeBand())
                 .attr("y", function(d) {
@@ -115,3 +91,14 @@
 </video> 
 
 <svg id="barChart"></svg>
+
+<ul>
+    
+<li>@Html.ActionLink("Projects", "Index", "Projects") </li>
+<li>@Html.ActionLink("Users", "Index", "Users") </li>
+<li>@Html.ActionLink("FieldOfStudies", "Index", "FieldOfStudies") </li>
+<li>@Html.ActionLink("AcademicInstitutes", "Index", "AcademicInstitutes") </li>
+<li>@Html.ActionLink("Sales", "Index", "Sales") </li>
+
+    
+</ul>

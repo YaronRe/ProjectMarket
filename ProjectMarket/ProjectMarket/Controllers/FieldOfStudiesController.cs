@@ -145,8 +145,16 @@ namespace ProjectMarket.Controllers
         }
 
         public ActionResult Statistics() {
-            
-            return Json(new object [] { new {Product = "Shoes2",Count = 3},new {Product = "Shoes", Count= 5}, new {Product= "Shoes1",Count= 8}, new {Product= "Ssh",Count= 8}, new {Product= "Sh",Count= 8}, new {Product= "Sho",Count= 8}});
+            return Json(
+                _context.Project
+                .GroupBy(proj => proj.FieldOfStudy)
+                .Select(g => new Dictionary<string, string>()
+                {
+                    { "FieldOfStudie", g.Key.Name },
+                    { "Count", g.Count().ToString() }
+                })
+                .ToList()
+                );
         }
         
         private bool FieldOfStudyExists(int id)

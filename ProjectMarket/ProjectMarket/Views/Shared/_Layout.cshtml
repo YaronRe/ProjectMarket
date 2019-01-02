@@ -25,19 +25,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li style="color:white">
-                        שלום
-                        @if (Context.User.Identity.IsAuthenticated)
-                        {
-                            <b>@Context.User.Identity.Name </b>
-                            <a asp-area="" asp-controller="Account" asp-action="Logoff">התנתק</a>
-                        }
-                        else
-                        {
-                            <b>אורח</b>
-                            <a asp-area="" asp-controller="Account" asp-action="Login">התחבר</a>
-                        }
-                    </li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">דף הבית</a></li>
                     <li><a asp-area="" asp-controller="Projects" asp-action="Index">חנות</a></li>
                     @if (Context.User.Identity.IsAuthenticated)
@@ -53,6 +40,16 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">אודות</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">צור קשר</a></li>
                 </ul>
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                    <p class="navbar-text navbar-left">מחובר בתור @Context.User.Identity.Name. <a asp-area="" asp-controller="Account" asp-action="Logoff">התנתק</a></p>                    
+                }
+                else
+                {
+                    <p class="navbar-text navbar-left"><a asp-area="" asp-controller="Account" asp-action="Login">התחבר</a></p>
+                    
+                }
+
             </div>
         </div>
     </nav>

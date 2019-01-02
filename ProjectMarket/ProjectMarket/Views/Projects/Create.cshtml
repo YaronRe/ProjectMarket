@@ -1,12 +1,11 @@
 ﻿@model ProjectMarket.Models.Project
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "יצירת פרויקט";
 }
 
-<h2>Create</h2>
+<h2>יצירת פרויקט</h2>
 
-<h4>Project</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -31,14 +30,14 @@
                 @Html.DropDownList("AcademicInstituteId", new SelectList(ViewBag.AcademicInstitutes, "Id", "Name"), new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="שמירה" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="MyProjects">חזרה לרשימת פרויקטים</a>
 </div>
 
 @section Scripts {

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ProjectMarket
 {
@@ -30,6 +31,13 @@ namespace ProjectMarket
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            new CookieAuthenticationOptions()
+            {
+                LoginPath = new PathString("/Home/Login/"),
+                AccessDeniedPath = new PathString("/Account/Forbidden/"),
+                
             });
 
 
@@ -54,6 +62,7 @@ namespace ProjectMarket
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseSession();
             app.UseMvc(routes =>
             {

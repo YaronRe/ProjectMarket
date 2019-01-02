@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectMarket.Models;
 using Microsoft.AspNetCore.Http.Extensions;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ProjectMarket.Controllers
 {
@@ -22,26 +25,6 @@ namespace ProjectMarket.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult Login(bool? failedToAuthenticate)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind("UserName,Password")] User user)
-        {
-            var authenticatedUser = user.Login(_context);
-            if (authenticatedUser == null)
-            {
-                // TODO send to login with failedToAuthenticate=true
-            }
-           
-            // TODO save the user in session somehow
-            return null;
         }
 
         public IActionResult About()

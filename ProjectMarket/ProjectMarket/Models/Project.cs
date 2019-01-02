@@ -31,5 +31,6 @@ namespace ProjectMarket.Models
         public AcademicInstitute AcademicInstitute { get; set; }
         
         public User Owner { get; set; }
+        public int OwnerId { get; set; }
     }
 }

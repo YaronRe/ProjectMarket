@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,23 +9,22 @@ using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
 {
-    [Authorize(Roles = ClaimsExtension.Admin)]
-    public class UsersController : Controller
+    public class MeetingsController : Controller
     {
         private readonly ProjectMarketContext _context;
 
-        public UsersController(ProjectMarketContext context)
+        public MeetingsController(ProjectMarketContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Meetings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View(await _context.Meeting.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Meetings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +32,39 @@ namespace ProjectMarket.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var meeting = await _context.Meeting
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (meeting == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(meeting);
         }
 
-        // GET: Users/Create
+        // GET: Meetings/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Meetings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,EMail,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,LocationLongitude,LocationLatitude,MeetingDate")] Meeting meeting)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(meeting);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(meeting);
         }
 
-        // GET: Users/Edit/5
+        // GET: Meetings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +72,22 @@ namespace ProjectMarket.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var meeting = await _context.Meeting.FindAsync(id);
+            if (meeting == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(meeting);
         }
 
-        // POST: Users/Edit/5
+        // POST: Meetings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,EMail,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LocationLongitude,LocationLatitude,MeetingDate")] Meeting meeting)
         {
-            if (id != user.Id)
+            if (id != meeting.Id)
             {
                 return NotFound();
             }
@@ -98,12 +96,12 @@ namespace ProjectMarket.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(meeting);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!MeetingExists(meeting.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +112,10 @@ namespace ProjectMarket.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(meeting);
         }
 
-        // GET: Users/Delete/5
+        // GET: Meetings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +123,30 @@ namespace ProjectMarket.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var meeting = await _context.Meeting
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (meeting == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(meeting);
         }
 
-        // POST: Users/Delete/5
+        // POST: Meetings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            var meeting = await _context.Meeting.FindAsync(id);
+            _context.Meeting.Remove(meeting);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool MeetingExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Meeting.Any(e => e.Id == id);
         }
     }
 }

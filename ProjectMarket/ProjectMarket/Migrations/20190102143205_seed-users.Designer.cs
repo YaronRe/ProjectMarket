@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20190102143205_seed-users")]
+    partial class seedusers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,11 +34,6 @@ namespace ProjectMarket.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AcademicInstitute");
-
-                    b.HasData(
-                        new { Id = 1, Name = "המכללה למנהל" },
-                        new { Id = 2, Name = "מכון לב" }
-                    );
                 });
 
             modelBuilder.Entity("ProjectMarket.Models.FieldOfStudy", b =>
@@ -52,12 +49,6 @@ namespace ProjectMarket.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FieldOfStudy");
-
-                    b.HasData(
-                        new { Id = 1, Name = "מדעי המחשב" },
-                        new { Id = 2, Name = "כלכלה" },
-                        new { Id = 3, Name = "פיזיקה" }
-                    );
                 });
 
             modelBuilder.Entity("ProjectMarket.Models.Meeting", b =>
@@ -176,8 +167,8 @@ namespace ProjectMarket.Migrations
                     b.ToTable("User");
 
                     b.HasData(
-                        new { Id = 1, EMail = "admin@gmail.com", FirstName = "AdminF", IsAdmin = true, LastName = "AdminL", Password = "12345678", UserName = "Admin" },
-                        new { Id = 2, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, LastName = "UserL", Password = "12345678", UserName = "User" }
+                        new { Id = 1, EMail = "aa@gmail.com", FirstName = "AdminF", IsAdmin = true, LastName = "AdminL", Password = "12345678", UserName = "Admin" },
+                        new { Id = 2, EMail = "aa@gmail.com", FirstName = "UserF", IsAdmin = false, LastName = "UserL", Password = "12345678", UserName = "User" }
                     );
                 });
 

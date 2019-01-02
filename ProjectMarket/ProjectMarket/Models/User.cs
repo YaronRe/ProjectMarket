@@ -20,19 +20,26 @@ namespace ProjectMarket.Models
         [MinLength(4)]
         [MaxLength(20)]
         [RegularExpression(@"\w+")]
-        [DisplayName("שם")]
+        [DisplayName("שם משתמש")]
         public string UserName { get; set; }
+
+        [MaxLength(20)]
+        [DisplayName("שם פרטי")]
+        public string FirstName { get; set; }
+        [MaxLength(20)]
+        [DisplayName("שם משפחה")]
+        public string LastName { get; set; }
+
+        [DisplayName("שם")]
+        public string FullName => $"{FirstName} {LastName}";
 
         [Required]
         [MinLength(8)]
         [MaxLength(200)]
         [DisplayName("Password")]
         public string Password {
-            get { return _password; }
-            set
-            {
-                _password = HashPassword(value);
-            }
+            get => _password;
+            set => _password = HashPassword(value);
         }
 
         [Required]

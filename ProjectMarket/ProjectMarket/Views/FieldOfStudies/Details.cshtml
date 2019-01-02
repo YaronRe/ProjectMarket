@@ -1,13 +1,12 @@
 ﻿@model ProjectMarket.Models.FieldOfStudy
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "פרטי תחום לימוד";
 }
 
-<h2>Details</h2>
+<h2>פרטי תחום לימוד</h2>
 
 <div>
-    <h4>FieldOfStudy</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -16,9 +15,15 @@
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">עריכה</a> |
+    <a asp-action="Index">חזרה לרשימת תחומי לימוד</a>
 </div>

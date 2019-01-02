@@ -4,18 +4,26 @@
     ViewData["Title"] = "חנות";
 }
 
-<h2>חנות פרויקטים</h2>
-    
-    <div class="row">
-            
-        @foreach (var item in Model)
-        {
-            <div class="col-xs-6 col-lg-4">
-              <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
-              <p>@Html.DisplayFor(modelItem => item.Description) </p>
-              <p>@Html.ActionLink("פרטים", "Details", item)</p>
-            </div>
-        }
-    </div>
-    
+@section Styles {
+    <link href="@Url.Content("~/css/shop.css")" rel="stylesheet" type="text/css" />
+}
 
+<h2>חנות פרויקטים</h2>
+<div class="container">
+        <div class="row">
+           
+        @foreach (var item in Model)
+        { <div class="col-md-4">
+              <div class="card-content">
+                  <div class="card-desc">
+                      <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                      <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                      @* <a href="#" class="btn-card">Read</a>    *@
+                      @Html.ActionLink("פרטים", "Details", item)
+                  </div>
+              </div>
+          </div>
+            
+        }
+        </div>
+</div>    

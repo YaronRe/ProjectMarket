@@ -7,8 +7,10 @@ namespace ProjectMarket.Models
 {
     public class Meeting
     {
-        public double LocationLog { get; set; }
-        public double LocationLat { get; set; }
+        public int Id { get; set; }
+        public double LocationLongitude { get; set; }
+        public double LocationLatitude { get; set; }
         public DateTime MeetingDate { get; set; }
+        public string Details { get; set; }
     }
 }

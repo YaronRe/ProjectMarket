@@ -23,5 +23,7 @@ namespace ProjectMarket.Models
         public DbSet<ProjectMarket.Models.Project> Project { get; set; }
 
         public DbSet<ProjectMarket.Models.Sale> Sale { get; set; }
+
+        public DbSet<ProjectMarket.Models.Meeting> Meeting { get; set; }
     }
 }

@@ -150,8 +150,8 @@ namespace ProjectMarket.Controllers
                 .GroupBy(proj => proj.FieldOfStudy)
                 .Select(g => new Dictionary<string, string>()
                 {
-                    { "FieldOfStudie", g.Key.Name },
-                    { "Count", g.Count().ToString() }
+                    { "label", g.Key.Name },
+                    { "value", g.Count().ToString() }
                 })
                 .ToList()
                 );

@@ -1,12 +1,41 @@
 ﻿@model ProjectMarket.Models.Project
 
 @{
-    ViewData["Title"] = "צפיה בפרטי פרויקט";
+    ViewData["Title"] = Model.Name + " | פרטי פרויקט";
 }
 
-<h2>פרטי הפרויקט</h2>
+@section Styles {
+    <link href="@Url.Content("~/css/project-details.css")" rel="stylesheet" type="text/css" />
+}
 
-<div>
+
+<div style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="project-header">
+                <h2>@Html.DisplayFor(model => model.Name)</h2>
+            </div>
+            <div class="project-info">
+                <h3>תיאור הפרויקט</h3>
+                @Html.DisplayFor(model => model.Description)
+                <h3>מוסד אקדמי</h3>
+                @Html.DisplayFor(model => model.AcademicInstitute.Name)
+                <h3>תחום לימוד</h3>
+                @Html.DisplayFor(model => model.FieldOfStudy.Name)
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="well well-lg">
+                <img src="~/images/Student.jpg" class="img-responsive img-circle" />
+                <hr />
+                <div class="text-center">
+                    <strong>@Html.DisplayFor(model => model.Owner.FullName)</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <hr />
     <dl class="dl-horizontal">
         <dt>

@@ -48,7 +48,9 @@ namespace ProjectMarket.Controllers
             }
 
             var project = await _context.Project
-                .Include(x => x.AcademicInstitute).Include(x => x.FieldOfStudy)
+                .Include(x => x.AcademicInstitute)
+                .Include(x => x.FieldOfStudy)
+                .Include(x => x.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (project == null)
             {

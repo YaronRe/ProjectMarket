@@ -79,6 +79,12 @@ namespace ProjectMarket.Controllers
             }
             return View(fieldOfStudy);
         }
+        
+        public async Task<IActionResult> Projects(int? id)
+        {
+            Console.WriteLine(id);
+            return View(await _context.Project.Where(x => x.FieldOfStudyId == id).ToListAsync());
+        }
 
         // POST: FieldOfStudies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

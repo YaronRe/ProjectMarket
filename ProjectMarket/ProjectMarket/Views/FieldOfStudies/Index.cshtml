@@ -33,3 +33,22 @@
 }
     </tbody>
 </table>
+
+
+<div class="container">
+    <div class="row">
+           
+        @foreach (var item in Model)
+        { <div class="col-md-4">
+              <div class="card-content">
+                  <div class="card-desc">
+                      <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                      <a asp-action="Details" asp-route-id="@item.Id" class="btn-card">פרטים</a> 
+                      <a asp-action="Projects" asp-route-id="@item.Id" class="btn-card">פרוייקטים</a> 
+                  </div>
+              </div>
+          </div>
+            
+        }
+    </div>
+</div>   

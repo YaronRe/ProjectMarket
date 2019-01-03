@@ -44,6 +44,10 @@ ul.nav-tabs > li {
     text-align: center;
 }
 
+.nav-tabs> li{
+    background: #f7fbfb;
+}
+
 .tab-content > .active {
     background-color: #ffffff;
 }

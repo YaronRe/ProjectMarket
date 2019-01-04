@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
+using ProjectMarket.ViewModels;
 
 namespace ProjectMarket.Controllers
 {
@@ -35,14 +36,37 @@ namespace ProjectMarket.Controllers
             return View();
         }
 
+        private User Login(AuthenticationDetails details)
+        {
+            var matchingUsers = _context.User.Where(user => user.UserName == details.UserName && user.Password == details.Password).ToArray();
+            if (matchingUsers.Length == 1)
+            {
+                return matchingUsers[0];
+            }
+            return null;
+        }
+
+        private User Register(RegistrationDetails details)
+        {
+
+            return new User(){
+                UserName = details.UserName,
+                Password = details.Password,
+                FirstName = details.FirstName,
+                LastName =details.LastName,
+                EMail = details.EMail,
+                IsAdmin = false
+            };
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("UserName,Password")] User user,string returnUrl)
+        public async Task<IActionResult> Login([Bind("UserName,Password,IsPersistent")] AuthenticationDetails authDetails,string returnUrl)
         {
             try
             {
-                var authenticatedUser = user.Login(_context);
+                var authenticatedUser = Login(authDetails);
                 if (authenticatedUser == null)
                 {
                     // TODO send to login with failedToAuthenticate=true
@@ -75,14 +99,14 @@ namespace ProjectMarket.Controllers
                     // value set here overrides the ExpireTimeSpan option of 
                     // CookieAuthenticationOptions set with AddCookie.
 
-                    IsPersistent = true,
+                    IsPersistent = authDetails.IsPersistent,
                     // Whether the authentication session is persisted across 
                     // multiple requests. Required when setting the 
                     // ExpireTimeSpan option of CookieAuthenticationOptions 
                     // set with AddCookie. Also required when setting 
-                    // ExpiresUtc.
+                    ExpiresUtc= DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(10.0)),
 
-                    IssuedUtc = DateTimeOffset.Now,
+                    IssuedUtc = DateTimeOffset.UtcNow,
                     // The time at which the authentication ticket was issued.
 
                     //RedirectUri = <string>
@@ -111,6 +135,26 @@ namespace ProjectMarket.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("UserName,Password,EMail,FirstName,LastName")] RegistrationDetails regDetails, string returnUrl)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = Register(regDetails);
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+                return View("Login");
+            }
+            catch
+            {
+                return View("Login");
+            }
+        }
         public IActionResult Login(bool? failedToAuthenticate,string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;

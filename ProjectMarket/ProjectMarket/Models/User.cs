@@ -36,7 +36,8 @@ namespace ProjectMarket.Models
         [Required]
         [MinLength(8)]
         [MaxLength(200)]
-        [DisplayName("Password")]
+        [DataType(DataType.Password)]
+        [DisplayName("סיסמה")]
         public string Password {
             get => _password;
             set => _password = HashPassword(value);
@@ -50,15 +51,7 @@ namespace ProjectMarket.Models
         [Required]
         public bool IsAdmin { get; set; }
 
-        public User Login(ProjectMarketContext context)
-        {
-            var matchingUsers = context.User.Where(user => user.UserName == UserName && user.Password == Password).ToArray();
-            if (matchingUsers.Length == 1)
-            {
-                return matchingUsers[0];
-            }
-            return null;
-        }
+        
 
         private static string HashPassword(string password)
         {

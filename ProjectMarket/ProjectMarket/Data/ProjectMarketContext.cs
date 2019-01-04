@@ -16,6 +16,8 @@ namespace ProjectMarket.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Makes the user name uniqe
+            modelBuilder.Entity<User>(entity => entity.HasIndex(u => u.UserName).IsUnique());
             modelBuilder.Entity<User>().HasData(
                 new User() { Id = 1, EMail = "admin@gmail.com", FirstName = "AdminF", LastName = "AdminL", IsAdmin = true, UserName = "Admin", Password = "12345678" },
                 new User() { Id = 2, EMail = "user@gmail.com", FirstName = "UserF", LastName = "UserL", IsAdmin = false, UserName = "User", Password = "12345678" }

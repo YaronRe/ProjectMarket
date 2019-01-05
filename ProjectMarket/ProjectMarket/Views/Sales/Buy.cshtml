@@ -20,8 +20,20 @@
             @Html.DisplayNameFor(model => model.Buyer)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Buyer)
+            <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Buyer.Id">
+                @Html.DisplayFor(model => model.Buyer.UserName)
+            </a> 
         </dd>
+        <dt>
+            מוכר
+        </dt>
+        <dd>
+            <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Project.Owner.Id">
+                @Html.DisplayFor(model => model.Project.Owner.UserName)
+            </a> 
+
+        </dd>
+        
         <dt>
             @Html.DisplayNameFor(model => model.Rank)
         </dt>

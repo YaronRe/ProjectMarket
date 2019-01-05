@@ -70,8 +70,9 @@ namespace ProjectMarket.Controllers
             Sale sale = new Sale();
             sale.Buyer = user;
             sale.Project = project.Result;
-//            sale.Price = project.Price;
+            sale.Price = project.Result.Price;
             _context.Add(sale);
+            _context.SaveChanges();
             return View(sale);
         }
 

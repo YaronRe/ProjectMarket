@@ -27,6 +27,11 @@ namespace ProjectMarket.Controllers
             return View(await _context.Project.ToListAsync());
         }
         
+        public async Task<IActionResult> FieldOfStudy(int id)
+        {
+            return View(await _context.Project.Where(x => x.FieldOfStudyId == id).ToListAsync());
+        }
+        
         public async Task<IActionResult> MyProjects()
         {
             int userId = ClaimsExtension.GetUserId(HttpContext);

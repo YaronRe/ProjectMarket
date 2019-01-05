@@ -1,16 +1,14 @@
-@model IEnumerable<ProjectMarket.Models.Project>
+﻿@model IEnumerable<ProjectMarket.Models.Project>
 
 @{
     ViewData["Title"] = "חנות";
 }
 
-@section Styles {
-    <link href="@Url.Content("~/css/shop.css")" rel="stylesheet" type="text/css" />
-}
 
 <h2>חנות פרויקטים</h2>
 <div class="container">
-    <div class="row">
+        <div class="row">
+           
         @foreach (var item in Model)
         { <div class="col-md-4">
               <div class="card-content">
@@ -20,9 +18,8 @@
                       @Html.ActionLink("פרטים", "Details", item, new { @class= "btn-card"})
                   </div>
               </div>
-          </div>     
+          </div>
+            
         }
-    </div>
+        </div>
 </div>    
-
-

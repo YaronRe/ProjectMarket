@@ -1,12 +1,46 @@
 ﻿@model IEnumerable<ProjectMarket.Models.Meeting>
 
-@{
+@*@{
     ViewData["Title"] = "Index";
-}
+}*@
 
 <h2>Index</h2>
 
-<p>
+
+
+@{
+    ViewBag.Title = "Map";
+}
+
+<title>@ViewBag.Title</title>
+
+<h2 style="background-color: white;color: Blue; text-align: center; font-style: oblique">Project location</h2>
+<fieldset>
+    @*<legend style="font-family: Arial Black; color: blue; font-size: large;">Where is the project?</legend>*@
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <div id="googleMap" style="height:400px;width:100%;"></div>
+    <script>
+
+        function myMap() {
+            var myCenter = new google.maps.LatLng(32.092568, 34.839206);
+            var mapProp = { center: myCenter, zoom: 15, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            var marker = new google.maps.Marker({ position: myCenter });
+            marker.setMap(map);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYAVFanCIGvjWg9yxIytoD-F85ZFPNFu4&callback=myMap&language=iw"></script>
+</fieldset>
+<footer>
+    <p style="background-color: white; font-weight: bold; color:blue; text-align: center; font-style: oblique">© @DateTime.Now.ToLocalTime()</p> @*Add Date Time*@
+</footer>
+
+@*<p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -25,23 +59,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationLongitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationLatitude)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MeetingDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationLongitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationLatitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeetingDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
-</table>
+</table>*@

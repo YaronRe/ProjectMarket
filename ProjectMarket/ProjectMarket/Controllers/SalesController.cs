@@ -47,6 +47,33 @@ namespace ProjectMarket.Controllers
         {
             return View();
         }
+        
+        public IActionResult Buy(int id)
+        {
+            int userId = ClaimsExtension.GetUserId(HttpContext);
+
+            var project = _context.Project
+                .Include(x => x.AcademicInstitute)
+                .Include(x => x.FieldOfStudy)
+                .Include(x => x.Owner)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            var user = _context.User.Find(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            
+            Sale sale = new Sale();
+            sale.Buyer = user;
+            sale.Project = project.Result;
+//            sale.Price = project.Price;
+            _context.Add(sale);
+            return View(sale);
+        }
 
         // POST: Sales/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

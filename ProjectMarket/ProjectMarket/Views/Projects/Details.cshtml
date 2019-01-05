@@ -34,7 +34,9 @@
             </div>
         </div>
     </div>
-
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        קנה
+        </button>
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <hr />
     <dl class="dl-horizontal">
@@ -63,8 +65,26 @@
             @Html.DisplayFor(model => model.FieldOfStudy.Name)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">עריכה</a> |
-    <a asp-action="MyProjects">חזרה לרשימת הפרויקטים</a>
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">קניית פרוייקט</h4>
+            </div>
+            <div class="modal-body">
+                @Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)
+
+
+                </div>
+            <div class="modal-footer">
+                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a> 
+                <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+            </div>
+        </div>
+    </div>
 </div>

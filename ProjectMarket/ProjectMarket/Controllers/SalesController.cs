@@ -56,11 +56,13 @@ namespace ProjectMarket.Controllers
                 .Include(x => x.AcademicInstitute)
                 .Include(x => x.FieldOfStudy)
                 .Include(x => x.Owner)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
+
             if (project == null)
             {
                 return NotFound();
             }
+
             var user = _context.User.Find(userId);
             if (user == null)
             {
@@ -69,8 +71,8 @@ namespace ProjectMarket.Controllers
             
             Sale sale = new Sale();
             sale.Buyer = user;
-            sale.Project = project.Result;
-            sale.Price = project.Result.Price;
+            sale.Project = project;
+            sale.Price = project.Price;
             _context.Add(sale);
             _context.SaveChanges();
             return View(sale);

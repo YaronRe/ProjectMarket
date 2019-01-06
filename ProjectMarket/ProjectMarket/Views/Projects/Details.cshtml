@@ -9,12 +9,12 @@
 }
 
 
-<div style="margin-top: 30px;">
+<section style="margin-top: 30px;">
     <div class="row">
         <div class="col-md-9">
-            <div class="project-header">
+            <header class="project-header">
                 <h2>@Html.DisplayFor(model => model.Name)</h2>
-            </div>
+            </header>
             <div class="project-info">
                 <h3>תיאור הפרויקט</h3>
                 @Html.DisplayFor(model => model.Description)
@@ -25,13 +25,13 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="well well-lg">
+            <aside class="well well-lg">
                 <img src="~/images/Student.jpg" class="img-responsive img-circle" />
                 <hr />
                 <div class="text-center">
                     <strong>@Html.DisplayFor(model => model.Owner.FullName)</strong>
                 </div>
-            </div>
+            </aside>
         </div>
     </div>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
@@ -65,7 +65,7 @@
             @Html.DisplayFor(model => model.FieldOfStudy.Name)
         </dd>
     </dl>
-    </div>
+    </section>
 
 
 <!-- Modal -->

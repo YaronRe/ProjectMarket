@@ -29,7 +29,8 @@ namespace ProjectMarket.Models
         public int AcademicInstituteId { get; set; }
         [Display(Name ="מוסד אקדמי")]
         public AcademicInstitute AcademicInstitute { get; set; }
-
+        
+        [Display(Name = "מחיר")]
         public int Price { get; set; }
 
         public User Owner { get; set; }

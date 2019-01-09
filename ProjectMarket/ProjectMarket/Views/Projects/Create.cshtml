@@ -30,6 +30,22 @@
                 @Html.DropDownList("AcademicInstituteId", new SelectList(ViewBag.AcademicInstitutes, "Id", "Name"), new { @class = "form-control" })
             </div>
             <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" id="address_name" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+                <span>
+                    <input type="button" class="btn bg-primary" value="בחר כתובת" onclick="SelectName()" />
+                </span>
+
+                <script type="text/javascript">
+                    var popup;
+                    function SelectName() {
+                        popup = window.open("/map_popup.html", "Popup", "width=900,height=700");
+                        popup.focus();
+                    }
+                </script>
+                </div>
+            <div class="form-group">
                 <input type="submit" value="שמירה" class="btn btn-default" />
             </div>
         </form>

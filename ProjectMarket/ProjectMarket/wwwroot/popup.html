@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h2 style="background-color: white;color: Blue; text-align: center; font-style: oblique">Project location</h2>
+    <fieldset>
+        @*<legend style="font-family: Arial Black; color: blue; font-size: large;">Where is the project?</legend>*@
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <div id="googleMap" style="height:400px;width:100%;"></div>
+        <script>
+
+            function myMap() {
+
+                var defaultBounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(32.092568, 34.839206),
+                    new google.maps.LatLng(32.052568, 34.849206));
+
+                var input = document.getElementById('searchTextField');
+                var options = {
+                    bounds: defaultBounds,
+                    types: ['establishment']
+                };
+
+                autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                var myCenter = new google.maps.LatLng(32.092568, 34.839206);
+                var mapProp = { center: myCenter, zoom: 15, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                var marker = new google.maps.Marker({ position: myCenter });
+                marker.setMap(map);
+            }
+
+            function geolocate() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var geolocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        var circle = new google.maps.Circle({
+                            center: geolocation,
+                            radius: position.coords.accuracy
+                        });
+                        autocomplete.setBounds(circle.getBounds());
+                    });
+                }
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYAVFanCIGvjWg9yxIytoD-F85ZFPNFu4&callback=myMap&language=iw"></script>
+    </fieldset>
+    <footer>
+        <select name="ddlNames" id="ddlNames">
+            <option value="Mudassar Khan">Mudassar Khan</option>
+            <option value="John Hammond">John Hammond</option>
+            <option value="Mike Stanley">Mike Stanley</option>
+        </select>
+        <br />
+        <br />
+        <input type="search" value="search" id="searchTextField" />
+        <input type="button" value="Select" onclick="SetName();" />
+        <script type="text/javascript">
+            function SetName() {
+                if (window.opener != null && !window.opener.closed) {
+                    var addressName = window.opener.document.getElementById("address_name");
+                    addressName.value = document.getElementById("ddlNames").value;
+                }
+                window.close();
+            }
+        </script>
+</body>
+</html>

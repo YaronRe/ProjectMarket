@@ -37,6 +37,9 @@ namespace ProjectMarket.Models
 
         public double LocationLongitude { get; set; }
         public double LocationLatitude { get; set; }
+        [MaxLength(300)]
+        [Display(Name = "כתובת לברורים")]
+        public string Address { get; set; }
 
     }
 }

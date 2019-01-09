@@ -25,6 +25,8 @@ namespace ProjectMarket.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            IEnumerable<FieldOfStudy> fieldsOfStudy = _context.FieldOfStudy.ToList();
+            ViewData["FieldsOfStudy"] = fieldsOfStudy;
             IEnumerable<ProjectInStoreView> projects =
                 (from p in _context.Project
                  join u in _context.User on p.OwnerId equals u.Id
@@ -59,10 +61,32 @@ namespace ProjectMarket.Controllers
             return View(await _context.Project.Where(x => x.OwnerId == userId).ToListAsync());
         }
 
-        public async Task<IActionResult> FilterProjects([FromBody]ProjectFilter filter)
+        [HttpGet]
+        public async Task<IActionResult> Filter(ProjectFilter filter)
         {
-            return null; // _context.Project.Join().Where(project => project.ow)
+            IEnumerable<ProjectInStoreView> projects =
+                (from p in _context.Project
+                 join u in _context.User on p.OwnerId equals u.Id
+                 join s in _context.Sale on p.Id equals s.ProjectId
+                 where (
+                    p.Name.Contains(filter.Name ?? "") &&
+                    (!filter.MaxPrice.HasValue || p.Price <= filter.MaxPrice.Value) &&
+                    (!filter.MinPrice.HasValue || p.Price >= filter.MinPrice.Value) &&
+                    (!filter.FieldOfStudyId.HasValue || p.FieldOfStudyId == filter.FieldOfStudyId.Value)
+                 ) 
+                 group new { s.Grade, s.Rank } by new { s.ProjectId, p.Description, p.Name } into proj
+                 select new ProjectInStoreView()
+                 {
+                     Id = proj.Key.ProjectId,
+                     Description = proj.Key.Description,
+                     Name = proj.Key.Name,
+                     AvgGrade = proj.Select(x => (double)x.Grade).Average(),
+                     Rank = proj.Select(x => (double)x.Rank).Average()
+                 });
+
+            return Json(projects);
         }
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {

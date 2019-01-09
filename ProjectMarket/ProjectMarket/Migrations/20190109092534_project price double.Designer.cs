@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20190109092534_project price double")]
+    partial class projectpricedouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,9 +88,6 @@ namespace ProjectMarket.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AcademicInstituteId");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(300);
 
                     b.Property<string>("Description")
                         .HasMaxLength(300);

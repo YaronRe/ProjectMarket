@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProjectMarket.ViewModels.ProjectInStoreView>
+﻿@using ProjectMarket.ViewModels;
+@model IEnumerable<ProjectMarket.ViewModels.ProjectInStoreView>
 
 @{
     ViewData["Title"] = "חנות";
@@ -6,23 +7,27 @@
 
 
 <h2>חנות פרויקטים</h2>
+<partial name="ProjectFilter" model="new ProjectFilter()" view-data="ViewData" />
 <div class="container">
-        <div class="row">
-           
+    <div id="Projects" class="row">
+
         @foreach (var item in Model)
-        { <div class="col-md-4">
-              <div class="card-content">
-                  <div class="card-desc">
-                      <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                      <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                      <h6>@Html.DisplayFor(model => item.Rank) / 5</h6>
-                      <h6>@Html.DisplayFor(model => item.AvgGrade) </h6>
-                      @Html.ActionLink("פרטים", "Details", item, new { @class = "btn-card" })
-                      @Html.ActionLink("קנה", "Buy","Sales", new { id = item.Id }, new { @class = "btn-card" })
-                  </div>
-              </div>
-          </div>
-            
+        {<div class="col-md-4">
+                <div class="card-content">
+                    <div class="card-desc">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                        <h6>@Html.DisplayFor(model => item.Rank) / 5</h6>
+                        <h6>@Html.DisplayFor(model => item.AvgGrade) </h6>
+                        @Html.ActionLink("פרטים", "Details", item, new { @class = "btn-card" })
+                        @Html.ActionLink("קנה", "Buy", "Sales", new { id = item.Id }, new { @class = "btn-card" })
+                    </div>
+                </div>
+            </div>
+
         }
-        </div>
-</div>    
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/project-filter.js"></script>
+}

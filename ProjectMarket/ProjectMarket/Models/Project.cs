@@ -31,7 +31,7 @@ namespace ProjectMarket.Models
         public AcademicInstitute AcademicInstitute { get; set; }
         
         [Display(Name = "מחיר")]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         public User Owner { get; set; }
         public int OwnerId { get; set; }

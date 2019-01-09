@@ -17,5 +17,7 @@ namespace ProjectMarket.ViewModels
         public double? MaxPrice { get; set; }
         [Display(Name = "תחום לימודים")]
         public int? FieldOfStudyId { get; set; }
+        [Display(Name = "כלול פרויקטים מחוקים")]
+        public bool? IsDeleted { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace ProjectMarket.Controllers
                 (from p in _context.Project
                  join u in _context.User on p.OwnerId equals u.Id
                  join s in _context.Sale on p.Id equals s.ProjectId
-                 where (
+                 where ( !p.IsDeleted && !u.IsDeleted &&
                     p.Name.Contains(filter.Name ?? "") &&
                     (!filter.MaxPrice.HasValue || p.Price <= filter.MaxPrice.Value) &&
                     (!filter.MinPrice.HasValue || p.Price >= filter.MinPrice.Value) &&
@@ -99,7 +99,8 @@ namespace ProjectMarket.Controllers
                 .Include(x => x.AcademicInstitute)
                 .Include(x => x.FieldOfStudy)
                 .Include(x => x.Owner)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && 
+                                    ((!m.Owner.IsDeleted && !m.IsDeleted) || ClaimsExtension.IsAdmin(HttpContext)));
             if (project == null)
             {
                 return NotFound();
@@ -153,7 +154,7 @@ namespace ProjectMarket.Controllers
 
             var project = await _context.Project
                 .Include(x => x.AcademicInstitute).Include(x => x.FieldOfStudy)
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
             if (project == null)
             {
                 return NotFound();
@@ -209,7 +210,7 @@ namespace ProjectMarket.Controllers
             }
 
             var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && !m.IsDeleted);
             if (project == null)
             {
                 return NotFound();
@@ -224,7 +225,8 @@ namespace ProjectMarket.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var project = await _context.Project.FindAsync(id);
-            _context.Project.Remove(project);
+            project.IsDeleted = true;
+            _context.Project.Update(project);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

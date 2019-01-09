@@ -155,6 +155,9 @@ namespace ProjectMarket.Controllers
         {
             var user = await _context.User.FindAsync(id);
             user.IsDeleted = true;
+            var userProjects = await _context.Project.Where(x => x.OwnerId == id && !x.IsDeleted).ToListAsync();
+            userProjects.ForEach(x => x.IsDeleted = true);
+            _context.Project.UpdateRange(userProjects);
             _context.User.Update(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

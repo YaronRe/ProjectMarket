@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.AccessControl;
@@ -41,6 +42,8 @@ namespace ProjectMarket.Models
         [MaxLength(300)]
         [Display(Name = "כתובת לברורים")]
         public string Address { get; set; }
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
 
     }
 }

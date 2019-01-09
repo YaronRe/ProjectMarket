@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
+using ProjectMarket.ViewModels;
 
 namespace ProjectMarket.Controllers
 {
@@ -24,7 +25,20 @@ namespace ProjectMarket.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Project.ToListAsync());
+            IEnumerable<ProjectInStoreView> projects =
+                (from p in _context.Project
+                 join u in _context.User on p.OwnerId equals u.Id
+                 join s in _context.Sale on p.Id equals s.ProjectId
+                 group new { s.Grade,s.Rank } by new { s.ProjectId ,p.Description,p.Name} into proj
+                 select new ProjectInStoreView()
+                 {
+                     Id = proj.Key.ProjectId,
+                     Description = proj.Key.Description,
+                     Name = proj.Key.Name,
+                     AvgGrade = proj.Select(x => (double)x.Grade).Average(),
+                     Rank = proj.Select(x => (double)x.Rank).Average()
+                 });
+            return View(projects);
         }
         
         public async Task<IActionResult> FieldOfStudy(int id)
@@ -43,6 +57,11 @@ namespace ProjectMarket.Controllers
             }
 
             return View(await _context.Project.Where(x => x.OwnerId == userId).ToListAsync());
+        }
+
+        public async Task<IActionResult> FilterProjects([FromBody]ProjectFilter filter)
+        {
+            return null; // _context.Project.Join().Where(project => project.ow)
         }
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -18,9 +18,13 @@ namespace ProjectMarket.Models
         [Range(1, 5)]
         [Display(Name = "דירוג")]
         public int Rank { get; set; }
+        [Range(0, 100)]
+        [Display(Name = "ציון")]
+        public int Grade { get; set; }
         [Display(Name = "קונה")]
         public User Buyer { get; set; }
         public Project Project { get; set; }
+        public int ProjectId { get; set; }
         [Display(Name = "מוסד אקדמי")]
         public AcademicInstitute AcademicInstitute { get; set; }
         public Meeting Meeting { get; set; }

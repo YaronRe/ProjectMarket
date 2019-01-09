@@ -19,7 +19,9 @@
             </header>
             <div class="project-info">
                 <h3>תיאור הפרויקט</h3>
-                @Html.DisplayFor(model => model.Description)
+                @Html.DisplayFor(model => model.Description)                
+                <h3>@Html.DisplayNameFor(model => model.Price)</h3>
+                @Html.DisplayFor(model => model.Price)
                 <h3>מוסד אקדמי</h3>
                 @Html.DisplayFor(model => model.AcademicInstitute.Name)
                 <h3>תחום לימוד</h3>
@@ -47,6 +49,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Description)
@@ -79,8 +87,8 @@
                 <h4 class="modal-title" id="myModalLabel">קניית פרוייקט</h4>
             </div>
             <div class="modal-body">
-                @Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)
-
+                <p>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name) </p>
+                @Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(model => model.Price)
 
                 </div>
             <div class="modal-footer">

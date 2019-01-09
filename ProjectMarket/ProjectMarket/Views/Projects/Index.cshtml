@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectMarket.Models.Project>
+﻿@model IEnumerable<ProjectMarket.ViewModels.ProjectInStoreView>
 
 @{
     ViewData["Title"] = "חנות";
@@ -15,7 +15,10 @@
                   <div class="card-desc">
                       <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
                       <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                      @Html.ActionLink("פרטים", "Details", item, new { @class= "btn-card"})
+                      <h6>@Html.DisplayFor(model => item.Rank) / 5</h6>
+                      <h6>@Html.DisplayFor(model => item.AvgGrade) </h6>
+                      @Html.ActionLink("פרטים", "Details", item, new { @class = "btn-card" })
+                      @Html.ActionLink("קנה", "Buy","Sales", new { id = item.Id }, new { @class = "btn-card" })
                   </div>
               </div>
           </div>

@@ -7,11 +7,13 @@
     <link href="@Url.Content("~/css/login.css")" rel="stylesheet" type="text/css" />
 }
 
-@section Scripts{
-    $('#myTabs a').click(function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-    })
+@section Scripts {
+    <script>
+        $('#myTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+    </script>
 }
 
 
@@ -24,38 +26,10 @@
 
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="login">
-                @{Html.RenderPartial("SignIn");}
+                <partial name="SignIn" />
             </div>
             <div role="tabpanel" class="tab-pane" id="sign">
-                @{Html.RenderPartial("Register");}
-                @* <form asp-action="Create"> *@
-                @*         <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
-                @*         <div class="form-group"> *@
-                @*             <label asp-for="UserName" class="control-label"></label> *@
-                @*             <input asp-for="UserName" class="form-control" /> *@
-                @*             <span asp-validation-for="UserName" class="text-danger"></span> *@
-                @*         </div> *@
-                @*         <div class="form-group"> *@
-                @*             <label asp-for="EMail" class="control-label"></label> *@
-                @*             <input asp-for="EMail" class="form-control" /> *@
-                @*             <span asp-validation-for="EMail" class="text-danger"></span> *@
-                @*         </div> *@
-                @*         <div class="form-group"> *@
-                @*             <label asp-for="Password" class="control-label"></label> *@
-                @*             <input asp-for="Password" class="form-control" /> *@
-                @*             <span asp-validation-for="Password" class="text-danger"></span> *@
-                @*         </div> *@
-                @*         <div class="form-group"> *@
-                @*             <div class="checkbox"> *@
-                @*                 <label> *@
-                @*                     <input asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin) *@
-                @*                 </label> *@
-                @*             </div> *@
-                @*         </div> *@
-                @*         <div class="form-group"> *@
-                @*             <input type="submit" value="Create" class="btn btn-default" /> *@
-                @*         </div> *@
-                @*     </form>                 *@
+                <partial name="Register" />
             </div>
         </div>
 </div>

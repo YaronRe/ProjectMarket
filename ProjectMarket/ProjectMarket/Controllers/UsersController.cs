@@ -10,7 +10,7 @@ using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
 {
-    [Authorize(Roles = ClaimsExtension.Admin)]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly ProjectMarketContext _context;
@@ -23,7 +23,14 @@ namespace ProjectMarket.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            if (ClaimsExtension.IsAdmin(HttpContext))
+            {
+                return View(await _context.User.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.User.Where(m => !m.IsDeleted).ToListAsync());
+            }
         }
 
         // GET: Users/Details/5
@@ -35,7 +42,7 @@ namespace ProjectMarket.Controllers
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && (!m.IsDeleted || ClaimsExtension.IsAdmin(HttpContext)));
             if (user == null)
             {
                 return NotFound();
@@ -45,6 +52,7 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Users/Create
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public IActionResult Create()
         {
             return View();
@@ -55,6 +63,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public async Task<IActionResult> Create([Bind("Id,UserName,EMail,Password,IsAdmin")] User user)
         {
             if (ModelState.IsValid)
@@ -67,6 +76,7 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +97,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,EMail,Password,IsAdmin")] User user)
         {
             if (id != user.Id)
@@ -118,6 +129,7 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,7 +138,7 @@ namespace ProjectMarket.Controllers
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && !m.IsDeleted);
             if (user == null)
             {
                 return NotFound();
@@ -138,10 +150,12 @@ namespace ProjectMarket.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            user.IsDeleted = true;
+            _context.User.Update(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

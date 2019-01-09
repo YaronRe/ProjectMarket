@@ -26,5 +26,6 @@ namespace ProjectMarket.Models
         public AcademicInstitute AcademicInstitute { get; set; }
         public bool AcceptedBySeller { get; set; }
         public bool AcceptedByBuyer { get; set; }
+        public int? AcademicInstituteId { get; internal set; }
     }
 }

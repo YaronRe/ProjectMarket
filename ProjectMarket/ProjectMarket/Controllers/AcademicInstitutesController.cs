@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
 {
+    [Authorize(Roles = ClaimsExtension.Admin)]
     public class AcademicInstitutesController : Controller
     {
         private readonly ProjectMarketContext _context;
@@ -125,6 +127,7 @@ namespace ProjectMarket.Controllers
 
             var academicInstitute = await _context.AcademicInstitute
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (academicInstitute == null)
             {
                 return NotFound();
@@ -133,12 +136,28 @@ namespace ProjectMarket.Controllers
             return View(academicInstitute);
         }
 
+        private bool CheckForDependency(int? id)
+        {
+            if (_context.Project.Count(x => x.AcademicInstituteId == id) != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return _context.Sale.Count(x => x.AcademicInstituteId == id) != 0;
+            }
+        }
+
         // POST: AcademicInstitutes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var academicInstitute = await _context.AcademicInstitute.FindAsync(id);
+            if (CheckForDependency(id))
+            {
+                return BadRequest("ישנם פרויקטים או מכירות התלויות במוסד האקדמי הזה");
+            }
             _context.AcademicInstitute.Remove(academicInstitute);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

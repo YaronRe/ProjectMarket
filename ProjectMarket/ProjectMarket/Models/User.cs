@@ -56,7 +56,7 @@ namespace ProjectMarket.Models
 
 
 
-        private static string HashPassword(string password)
+        public static string HashPassword(string password)
         {
             // TODO implement
             return password;

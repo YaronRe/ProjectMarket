@@ -38,12 +38,11 @@ namespace ProjectMarket.Controllers
 
         private User Login(AuthenticationDetails details)
         {
-            var matchingUsers = _context.User.Where(user => user.UserName == details.UserName && user.Password == details.Password).ToArray();
-            if (matchingUsers.Length == 1)
-            {
-                return matchingUsers[0];
-            }
-            return null;
+            return _context.User.FirstOrDefault(user => user.UserName == details.UserName && user.Password == details.Password);
+        }
+        private User UserForChangePassword(string password)
+        {
+            return _context.User.FirstOrDefault(user => user.Id == ClaimsExtension.GetUserId(HttpContext) && user.Password == Models.User.HashPassword(password));
         }
 
         private User Register(RegistrationDetails details)
@@ -132,7 +131,7 @@ namespace ProjectMarket.Controllers
             }
 
             // Something failed. Redisplay the form.
-            return View();
+            return View(authDetails);
         }
 
         [HttpPost]
@@ -155,6 +154,7 @@ namespace ProjectMarket.Controllers
                 return View("Login");
             }
         }
+
         public IActionResult Login(bool? failedToAuthenticate,string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -173,7 +173,7 @@ namespace ProjectMarket.Controllers
 
             return View(user);
         }
-        
+        //TODO: Need it?
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -190,6 +190,51 @@ namespace ProjectMarket.Controllers
             }
 
             return View(user);
+        }
+
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword([Bind("Password,NewPassword,ReNewPassword")] ChangePasswordDetails changePasswordDetails)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (changePasswordDetails.NewPassword == changePasswordDetails.ReNewPassword)
+                    {
+                        var user = UserForChangePassword(changePasswordDetails.Password);
+                        if (user != null)
+                        {
+                            user.Password = changePasswordDetails.NewPassword;
+                            _context.Update(user);
+                            _context.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "סיסמה לא נכונה");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "הסיסמאות שהוכנסו אינן תואמות");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError(string.Empty, "שגיאה התרחשה בעת החלפת הסיסמה");
+            }
+
+            return View(changePasswordDetails);
         }
     }
 }

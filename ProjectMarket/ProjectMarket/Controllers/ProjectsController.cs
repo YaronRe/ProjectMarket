@@ -62,6 +62,7 @@ namespace ProjectMarket.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(ProjectFilter filter)
         {
             IEnumerable<ProjectInStoreView> projects =

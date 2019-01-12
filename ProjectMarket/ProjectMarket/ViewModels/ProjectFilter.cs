@@ -11,9 +11,9 @@ namespace ProjectMarket.ViewModels
         [MaxLength(50)]
         [Display(Name = "שם")]
         public string Name { get; set; }
-        [Display(Name = "מינימום")]
+        [Display(Name = "מחיר מינימום")]
         public double? MinPrice { get; set; }
-        [Display(Name = "מקסימום")]
+        [Display(Name = "מחיר מקסימום")]
         public double? MaxPrice { get; set; }
         [Display(Name = "תחום לימודים")]
         public int? FieldOfStudyId { get; set; }

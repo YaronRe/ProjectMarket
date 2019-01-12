@@ -48,11 +48,12 @@ namespace ProjectMarket.Controllers
         private User Register(RegistrationDetails details)
         {
 
-            return new User(){
+            return new User()
+            {
                 UserName = details.UserName,
                 Password = details.Password,
                 FirstName = details.FirstName,
-                LastName =details.LastName,
+                LastName = details.LastName,
                 EMail = details.EMail,
                 IsAdmin = false
             };
@@ -61,7 +62,7 @@ namespace ProjectMarket.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("UserName,Password,IsPersistent")] AuthenticationDetails authDetails,string returnUrl)
+        public async Task<IActionResult> Login([Bind("UserName,Password,IsPersistent")] AuthenticationDetails authDetails, string returnUrl)
         {
             try
             {
@@ -103,7 +104,7 @@ namespace ProjectMarket.Controllers
                     // multiple requests. Required when setting the 
                     // ExpireTimeSpan option of CookieAuthenticationOptions 
                     // set with AddCookie. Also required when setting 
-                    ExpiresUtc= DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(10.0)),
+                    ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(10.0)),
 
                     IssuedUtc = DateTimeOffset.UtcNow,
                     // The time at which the authentication ticket was issued.
@@ -155,7 +156,7 @@ namespace ProjectMarket.Controllers
             }
         }
 
-        public IActionResult Login(bool? failedToAuthenticate,string returnUrl)
+        public IActionResult Login(bool? failedToAuthenticate, string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -236,5 +237,46 @@ namespace ProjectMarket.Controllers
 
             return View(changePasswordDetails);
         }
+
+        [Authorize]
+        public IActionResult Edit()
+        {
+            var currentUser = _context.User.Find(ClaimsExtension.GetUserId(HttpContext));
+            var currentDetails = new UpdateAccountDetails()
+            {
+                EMail = currentUser.EMail,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName
+            };
+            return View(currentDetails);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([Bind("FirstName,LastName,EMail")] UpdateAccountDetails updateAccountDetails)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var currentUser = _context.User.Find(ClaimsExtension.GetUserId(HttpContext));
+                    currentUser.EMail = updateAccountDetails.EMail;
+                    currentUser.FirstName = updateAccountDetails.FirstName;
+                    currentUser.LastName = updateAccountDetails.LastName;
+                    _context.Update(currentUser);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError(string.Empty, "שגיאה התרחשה בעת עדכון הפרטים האישיים");
+            }
+
+            return View(updateAccountDetails);
+        }
+
     }
 }

@@ -20,6 +20,7 @@ namespace ProjectMarket.Models
         public int? Grade { get; set; }
         [Display(Name = "קונה")]
         public User Buyer { get; set; }
+        public int BuyerId { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
         [Display(Name = "מוסד אקדמי")]

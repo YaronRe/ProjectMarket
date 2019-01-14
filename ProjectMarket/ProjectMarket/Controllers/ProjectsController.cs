@@ -65,11 +65,12 @@ namespace ProjectMarket.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Filter(ProjectFilter filter)
         {
+            bool includeDeleted = filter.IncludeDeleted && ClaimsExtension.IsAdmin(HttpContext);
             IEnumerable<ProjectInStoreView> projects =
                 (from p in _context.Project
                  join u in _context.User on p.OwnerId equals u.Id
                  join s in _context.Sale on p.Id equals s.ProjectId
-                 where ( !p.IsDeleted && !u.IsDeleted &&
+                 where ((includeDeleted || (!p.IsDeleted && !u.IsDeleted )) &&
                     p.Name.Contains(filter.Name ?? "") &&
                     (!filter.MaxPrice.HasValue || p.Price <= filter.MaxPrice.Value) &&
                     (!filter.MinPrice.HasValue || p.Price >= filter.MinPrice.Value) &&

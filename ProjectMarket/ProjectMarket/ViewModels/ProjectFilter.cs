@@ -18,6 +18,6 @@ namespace ProjectMarket.ViewModels
         [Display(Name = "תחום לימודים")]
         public int? FieldOfStudyId { get; set; }
         [Display(Name = "כלול פרויקטים מחוקים")]
-        public bool? IsDeleted { get; set; }
+        public bool IncludeDeleted { get; set; }
     }
 }

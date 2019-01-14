@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
+using ProjectMarket.ViewModels;
 
 namespace ProjectMarket.Controllers
 {
@@ -23,14 +24,7 @@ namespace ProjectMarket.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            if (ClaimsExtension.IsAdmin(HttpContext))
-            {
-                return View(await _context.User.ToListAsync());
-            }
-            else
-            {
-                return View(await _context.User.Where(m => !m.IsDeleted).ToListAsync());
-            }
+            return View(await _context.User.Where(m => !m.IsDeleted).ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -166,6 +160,23 @@ namespace ProjectMarket.Controllers
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Filter(UsersFilter filter)
+        {
+            bool includeDeleted = filter.IncludeDeleted && ClaimsExtension.IsAdmin(HttpContext);
+            var users = (
+                from u in _context.User
+                where u.FirstName.Contains(filter.FirstName ?? "") &&
+                      u.LastName.Contains(filter.LastName ?? "") &&
+                      u.UserName.Contains(filter.UserName ?? "") &&
+                      (includeDeleted || !u.IsDeleted)
+                select new { u.Id, u.UserName, u.FullName, u.EMail, u.IsAdmin,u.IsDeleted }
+                );
+
+            return Json(users);
         }
     }
 }

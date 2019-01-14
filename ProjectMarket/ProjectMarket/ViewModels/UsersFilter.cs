@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectMarket.ViewModels
 {
-    public class UserFilter
+    public class UsersFilter
     {
         [MaxLength(20)]
         [RegularExpression(@"\w+")]
@@ -21,6 +21,6 @@ namespace ProjectMarket.ViewModels
         [DisplayName("שם משפחה")]
         public string LastName { get; set; }
         [Display(Name = "כלול משתמשים מחוקים")]
-        public bool? IsDeleted { get; set; }
+        public bool IncludeDeleted { get; set; }
     }
 }

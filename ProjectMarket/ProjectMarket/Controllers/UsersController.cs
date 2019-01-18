@@ -41,6 +41,8 @@ namespace ProjectMarket.Controllers
             {
                 return NotFound();
             }
+            IEnumerable<FieldOfStudy> fieldsOfStudy = _context.FieldOfStudy.ToList();
+            ViewData["FieldsOfStudy"] = fieldsOfStudy;
 
             return View(user);
         }

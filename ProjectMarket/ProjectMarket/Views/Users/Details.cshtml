@@ -1,13 +1,10 @@
-﻿@model ProjectMarket.Models.User
+﻿@using ProjectMarket.ViewModels;
+@model ProjectMarket.Models.User
 
 @{
     ViewData["Title"] = "Details";
 }
-
-<h2>Details</h2>
-
 <div>
-    <h4>User</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,20 +14,24 @@
             @Html.DisplayFor(model => model.UserName)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.EMail)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.EMail)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsAdmin)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsAdmin)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">חזרה לרשימת משתמשים</a>
 </div>
+<partial name="ProjectFilter" model="new ProjectFilter(){UserId = Model.Id}" view-data="ViewData" />
+
+@section Scripts{
+    <script src="~/js/project-filter.js"></script>
+}

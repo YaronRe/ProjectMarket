@@ -71,6 +71,7 @@ namespace ProjectMarket.Controllers
                  join u in _context.User on p.OwnerId equals u.Id
                  join s in _context.Sale on p.Id equals s.ProjectId
                  where ((includeDeleted || (!p.IsDeleted && !u.IsDeleted )) &&
+                    (!filter.UserId.HasValue ||  p.OwnerId == filter.UserId.Value) &&
                     p.Name.Contains(filter.Name ?? "") &&
                     (!filter.MaxPrice.HasValue || p.Price <= filter.MaxPrice.Value) &&
                     (!filter.MinPrice.HasValue || p.Price >= filter.MinPrice.Value) &&

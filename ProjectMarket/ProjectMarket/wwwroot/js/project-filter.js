@@ -1,37 +1,43 @@
 ﻿function filterProjects() {
-    var filter = {};
-    var name = $('#Name').val();
+    let filter = {};
+    let name = $('#Name').val();
     if (typeof name !== 'undefined' && name != "") {
         filter.name = name;
     }
-    var minPrice = $('#MinPrice').val();
-    if (typeof minPrice !== 'undefined' && minPrice != "") {
+    let minPrice = $('#MinPrice').val();
+    if (typeof minPrice !== "undefined" && minPrice !== "") {
         filter.minPrice = minPrice;
     }
-    var maxPrice = $('#MaxPrice').val();
-    if (typeof maxPrice !== 'undefined' && maxPrice != "") {
+    let maxPrice = $('#MaxPrice').val();
+    if (typeof maxPrice !== "undefined" && maxPrice !== "") {
         filter.maxPrice = maxPrice;
     }
-    var fieldOfStudyId = $('#FieldOfStudyId').val();
-    if (typeof fieldOfStudyId !== 'undefined' && fieldOfStudyId != "") {
+
+    const fieldOfStudyId = $('#FieldOfStudyId').val();
+    if (typeof fieldOfStudyId !== "undefined" && fieldOfStudyId != "") {
         filter.fieldOfStudyId = fieldOfStudyId;
+    }
+
+    const userId = $("#UserId").val();
+    if (userId !== "undefined" && !isNaN(parseInt(userId))) {
+        filter.userId = userId;
     }
 
     $.ajax({
         type: "GET",
-        url: '/Projects/Filter',
+        url: "/Projects/Filter",
         data: filter,
         success: function (data) {
-            $('#Projects').empty(divs);
+            $("#Projects").empty();
             for (i in data) {
-                var item = data[i];
-                var nameHtml = `<h3>${item.name}</h3>`;
-                var descHtml = `<p>${item.description}</p>`;
-                var rankHtml = `<h6>${item.rank} / 5</h6>`;
-                var avgHtml = `<h6>${item.avgGrade}</h6>`;
-                var detailsLink = `<a href="/Projects/Details/${item.id}" class="btn-card">פרטים</a>`;
-                var buyLink = `<a href="/Sales/Buy/${item.id}" class="btn-card">קנה</a>`;
-                var divs = `<div class="col-md-4"> <div class="card-content"> <div class="card-desc"> ${nameHtml} ${descHtml} ${rankHtml} ${avgHtml} ${detailsLink} ${buyLink} </div></div></div>`;
+                let item = data[i];
+                let nameHtml = `<h3>${item.name}</h3>`;
+                let descHtml = `<p>${item.description}</p>`;
+                let rankHtml = `<h6>${item.rank} / 5</h6>`;
+                let avgHtml = `<h6>${item.avgGrade}</h6>`;
+                let detailsLink = `<a href="/Projects/Details/${item.id}" class="btn-card">פרטים</a>`;
+                let buyLink = `<a href="/Sales/Buy/${item.id}" class="btn-card">קנה</a>`;
+                let divs = `<div class="col-md-4"> <div class="card-content"> <div class="card-desc"> ${nameHtml} ${descHtml} ${rankHtml} ${avgHtml} ${detailsLink} ${buyLink} </div></div></div>`;
                 $('#Projects').append(divs);
             }
         },

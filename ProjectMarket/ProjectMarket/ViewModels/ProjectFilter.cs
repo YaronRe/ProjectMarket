@@ -19,5 +19,6 @@ namespace ProjectMarket.ViewModels
         public int? FieldOfStudyId { get; set; }
         [Display(Name = "כלול פרויקטים מחוקים")]
         public bool IncludeDeleted { get; set; }
+        public int? UserId { get; set; }
     }
 }

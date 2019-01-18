@@ -22,7 +22,10 @@
             <label asp-for="FieldOfStudyId" class="control-label"></label>
             @Html.DropDownList("FieldOfStudyId", new SelectList((IEnumerable<FieldOfStudy>)ViewData["FieldsOfStudy"], "Id", "Name"), " ---   בחר תחום לימוד   ---", new {@id = "FieldOfStudyId", @class = "form-control" })
         </div>
-
+        @if (Model.UserId.HasValue)
+        {
+            <input id="UserId" type="hidden" value="@Model.UserId.Value">
+        }
         <div class="form-group">
             <input id="project-filter" type="submit" value="סנן" class="btn btn-default"/>
         </div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ProjectMarket.Models;
 
 namespace ProjectMarket.Controllers
 {
+    [Authorize(Roles = ClaimsExtension.Admin)]
     public class FieldOfStudiesController : Controller
     {
         private readonly ProjectMarketContext _context;
@@ -139,6 +141,10 @@ namespace ProjectMarket.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var fieldOfStudy = await _context.FieldOfStudy.FindAsync(id);
+            if (_context.Project.Count(x => x.FieldOfStudyId == id) != 0)
+            {
+                return BadRequest("קיימים פרויקטים בתחום הלימוד הזה");
+            }
             _context.FieldOfStudy.Remove(fieldOfStudy);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

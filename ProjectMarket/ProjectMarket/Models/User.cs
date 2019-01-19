@@ -51,9 +51,12 @@ namespace ProjectMarket.Models
         [Required]
         public bool IsAdmin { get; set; }
 
-        
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
 
-        private static string HashPassword(string password)
+
+
+        public static string HashPassword(string password)
         {
             // TODO implement
             return password;

@@ -83,7 +83,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Price,ProjectsGrade,MeetingLocationX,MeetingLocationY,Rank")] Sale sale)
+        public async Task<IActionResult> Create([Bind("Id,Price,Grade,MeetingLocationX,MeetingLocationY,Rank")] Sale sale)
         {
             if (ModelState.IsValid)
             {
@@ -115,7 +115,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Price,ProjectsGrade,MeetingLocationX,MeetingLocationY,Rank")] Sale sale)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Price,Grade,MeetingLocationX,MeetingLocationY,Rank")] Sale sale)
         {
             if (id != sale.Id)
             {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20190109092534_project price double")]
+    partial class projectpricedouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,25 @@ namespace ProjectMarket.Migrations
                     );
                 });
 
+            modelBuilder.Entity("ProjectMarket.Models.Meeting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Details");
+
+                    b.Property<double>("LocationLatitude");
+
+                    b.Property<double>("LocationLongitude");
+
+                    b.Property<DateTime>("MeetingDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Meeting");
+                });
+
             modelBuilder.Entity("ProjectMarket.Models.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -68,15 +89,10 @@ namespace ProjectMarket.Migrations
 
                     b.Property<int>("AcademicInstituteId");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(300);
-
                     b.Property<string>("Description")
                         .HasMaxLength(300);
 
                     b.Property<int>("FieldOfStudyId");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<double>("LocationLatitude");
 
@@ -99,17 +115,6 @@ namespace ProjectMarket.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Project");
-
-                    b.HasData(
-                        new { Id = 1, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "DeletedOfUser", OwnerId = 2, Price = 10.0 },
-                        new { Id = 2, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "DeletedOfDelUser", OwnerId = 6, Price = 20.0 },
-                        new { Id = 3, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "Sold", OwnerId = 5, Price = 30.0 },
-                        new { Id = 4, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "NotSold", OwnerId = 4, Price = 40.0 },
-                        new { Id = 5, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "SoldAndDeleted", OwnerId = 4, Price = 50.0 },
-                        new { Id = 6, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "SoldMultiple", OwnerId = 4, Price = 60.0 },
-                        new { Id = 7, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "Graded", OwnerId = 4, Price = 60.0 },
-                        new { Id = 8, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "NotGraded", OwnerId = 4, Price = 60.0 }
-                    );
                 });
 
             modelBuilder.Entity("ProjectMarket.Models.Sale", b =>
@@ -124,15 +129,19 @@ namespace ProjectMarket.Migrations
 
                     b.Property<bool>("AcceptedBySeller");
 
-                    b.Property<int>("BuyerId");
+                    b.Property<int?>("BuyerId");
 
-                    b.Property<int?>("Grade");
+                    b.Property<int>("Grade");
+
+                    b.Property<int?>("MeetingId");
 
                     b.Property<double>("Price");
 
                     b.Property<int>("ProjectId");
 
-                    b.Property<int?>("Rank");
+                    b.Property<int>("ProjectsGrade");
+
+                    b.Property<int>("Rank");
 
                     b.HasKey("Id");
 
@@ -140,18 +149,11 @@ namespace ProjectMarket.Migrations
 
                     b.HasIndex("BuyerId");
 
+                    b.HasIndex("MeetingId");
+
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Sale");
-
-                    b.HasData(
-                        new { Id = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Price = 0.0, ProjectId = 3 },
-                        new { Id = 2, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 2 },
-                        new { Id = 3, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 6 },
-                        new { Id = 4, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 },
-                        new { Id = 5, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Grade = 80, Price = 0.0, ProjectId = 7, Rank = 4 },
-                        new { Id = 6, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 8 }
-                    );
                 });
 
             modelBuilder.Entity("ProjectMarket.Models.User", b =>
@@ -167,8 +169,6 @@ namespace ProjectMarket.Migrations
                         .HasMaxLength(20);
 
                     b.Property<bool>("IsAdmin");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(20);
@@ -189,13 +189,8 @@ namespace ProjectMarket.Migrations
                     b.ToTable("User");
 
                     b.HasData(
-                        new { Id = 1, EMail = "admin@gmail.com", FirstName = "AdminF", IsAdmin = true, IsDeleted = false, LastName = "AdminL", Password = "12345678", UserName = "Admin" },
-                        new { Id = 2, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, IsDeleted = false, LastName = "UserL", Password = "12345678", UserName = "User" },
-                        new { Id = 3, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, IsDeleted = false, LastName = "UserL", Password = "12345678", UserName = "Buyer" },
-                        new { Id = 4, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, IsDeleted = false, LastName = "UserL", Password = "12345678", UserName = "Seller" },
-                        new { Id = 5, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, IsDeleted = false, LastName = "UserL", Password = "12345678", UserName = "BuyerSeller" },
-                        new { Id = 6, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, IsDeleted = true, LastName = "UserL", Password = "12345678", UserName = "deleted" },
-                        new { Id = 7, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, IsDeleted = false, LastName = "UserL", Password = "12345678", UserName = "Grader" }
+                        new { Id = 1, EMail = "admin@gmail.com", FirstName = "AdminF", IsAdmin = true, LastName = "AdminL", Password = "12345678", UserName = "Admin" },
+                        new { Id = 2, EMail = "user@gmail.com", FirstName = "UserF", IsAdmin = false, LastName = "UserL", Password = "12345678", UserName = "User" }
                     );
                 });
 
@@ -204,35 +199,37 @@ namespace ProjectMarket.Migrations
                     b.HasOne("ProjectMarket.Models.AcademicInstitute", "AcademicInstitute")
                         .WithMany()
                         .HasForeignKey("AcademicInstituteId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProjectMarket.Models.FieldOfStudy", "FieldOfStudy")
                         .WithMany()
                         .HasForeignKey("FieldOfStudyId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProjectMarket.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ProjectMarket.Models.Sale", b =>
                 {
                     b.HasOne("ProjectMarket.Models.AcademicInstitute", "AcademicInstitute")
                         .WithMany()
-                        .HasForeignKey("AcademicInstituteId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("AcademicInstituteId");
 
                     b.HasOne("ProjectMarket.Models.User", "Buyer")
                         .WithMany()
-                        .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("BuyerId");
+
+                    b.HasOne("ProjectMarket.Models.Meeting", "Meeting")
+                        .WithMany()
+                        .HasForeignKey("MeetingId");
 
                     b.HasOne("ProjectMarket.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

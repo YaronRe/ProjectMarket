@@ -25,6 +25,8 @@ namespace ProjectMarket.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            IEnumerable<FieldOfStudy> fieldsOfStudy = _context.FieldOfStudy.ToList();
+            ViewData["FieldsOfStudy"] = fieldsOfStudy;
             IEnumerable<ProjectInStoreView> projects =
                 (from p in _context.Project
                  join u in _context.User on p.OwnerId equals u.Id
@@ -59,10 +61,35 @@ namespace ProjectMarket.Controllers
             return View(await _context.Project.Where(x => x.OwnerId == userId).ToListAsync());
         }
 
-        public async Task<IActionResult> FilterProjects([FromBody]ProjectFilter filter)
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Filter(ProjectFilter filter)
         {
-            return null; // _context.Project.Join().Where(project => project.ow)
+            bool includeDeleted = filter.IncludeDeleted && ClaimsExtension.IsAdmin(HttpContext);
+            IEnumerable<ProjectInStoreView> projects =
+                (from p in _context.Project
+                 join u in _context.User on p.OwnerId equals u.Id
+                 join s in _context.Sale on p.Id equals s.ProjectId
+                 where ((includeDeleted || (!p.IsDeleted && !u.IsDeleted )) &&
+                    (!filter.UserId.HasValue ||  p.OwnerId == filter.UserId.Value) &&
+                    p.Name.Contains(filter.Name ?? "") &&
+                    (!filter.MaxPrice.HasValue || p.Price <= filter.MaxPrice.Value) &&
+                    (!filter.MinPrice.HasValue || p.Price >= filter.MinPrice.Value) &&
+                    (!filter.FieldOfStudyId.HasValue || p.FieldOfStudyId == filter.FieldOfStudyId.Value)
+                 ) 
+                 group new { s.Grade, s.Rank } by new { s.ProjectId, p.Description, p.Name } into proj
+                 select new ProjectInStoreView()
+                 {
+                     Id = proj.Key.ProjectId,
+                     Description = proj.Key.Description,
+                     Name = proj.Key.Name,
+                     AvgGrade = proj.Select(x => (double)x.Grade).Average(),
+                     Rank = proj.Select(x => (double)x.Rank).Average()
+                 });
+
+            return Json(projects);
         }
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -75,7 +102,8 @@ namespace ProjectMarket.Controllers
                 .Include(x => x.AcademicInstitute)
                 .Include(x => x.FieldOfStudy)
                 .Include(x => x.Owner)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && 
+                                    ((!m.Owner.IsDeleted && !m.IsDeleted) || ClaimsExtension.IsAdmin(HttpContext)));
             if (project == null)
             {
                 return NotFound();
@@ -129,7 +157,7 @@ namespace ProjectMarket.Controllers
 
             var project = await _context.Project
                 .Include(x => x.AcademicInstitute).Include(x => x.FieldOfStudy)
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
             if (project == null)
             {
                 return NotFound();
@@ -185,7 +213,7 @@ namespace ProjectMarket.Controllers
             }
 
             var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && !m.IsDeleted);
             if (project == null)
             {
                 return NotFound();
@@ -200,7 +228,8 @@ namespace ProjectMarket.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var project = await _context.Project.FindAsync(id);
-            _context.Project.Remove(project);
+            project.IsDeleted = true;
+            _context.Project.Update(project);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

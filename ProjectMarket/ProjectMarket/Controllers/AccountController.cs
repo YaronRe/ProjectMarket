@@ -38,22 +38,22 @@ namespace ProjectMarket.Controllers
 
         private User Login(AuthenticationDetails details)
         {
-            var matchingUsers = _context.User.Where(user => user.UserName == details.UserName && user.Password == details.Password).ToArray();
-            if (matchingUsers.Length == 1)
-            {
-                return matchingUsers[0];
-            }
-            return null;
+            return _context.User.FirstOrDefault(user => user.UserName == details.UserName && user.Password == details.Password);
+        }
+        private User UserForChangePassword(string password)
+        {
+            return _context.User.FirstOrDefault(user => user.Id == ClaimsExtension.GetUserId(HttpContext) && user.Password == Models.User.HashPassword(password));
         }
 
         private User Register(RegistrationDetails details)
         {
 
-            return new User(){
+            return new User()
+            {
                 UserName = details.UserName,
                 Password = details.Password,
                 FirstName = details.FirstName,
-                LastName =details.LastName,
+                LastName = details.LastName,
                 EMail = details.EMail,
                 IsAdmin = false
             };
@@ -62,7 +62,7 @@ namespace ProjectMarket.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("UserName,Password,IsPersistent")] AuthenticationDetails authDetails,string returnUrl)
+        public async Task<IActionResult> Login([Bind("UserName,Password,IsPersistent")] AuthenticationDetails authDetails, string returnUrl)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace ProjectMarket.Controllers
                     // multiple requests. Required when setting the 
                     // ExpireTimeSpan option of CookieAuthenticationOptions 
                     // set with AddCookie. Also required when setting 
-                    ExpiresUtc= DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(10.0)),
+                    ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(10.0)),
 
                     IssuedUtc = DateTimeOffset.UtcNow,
                     // The time at which the authentication ticket was issued.
@@ -132,7 +132,7 @@ namespace ProjectMarket.Controllers
             }
 
             // Something failed. Redisplay the form.
-            return View();
+            return View(authDetails);
         }
 
         [HttpPost]
@@ -155,7 +155,8 @@ namespace ProjectMarket.Controllers
                 return View("Login");
             }
         }
-        public IActionResult Login(bool? failedToAuthenticate,string returnUrl)
+
+        public IActionResult Login(bool? failedToAuthenticate, string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -173,7 +174,7 @@ namespace ProjectMarket.Controllers
 
             return View(user);
         }
-        
+        //TODO: Need it?
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -191,5 +192,91 @@ namespace ProjectMarket.Controllers
 
             return View(user);
         }
+
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword([Bind("Password,NewPassword,ReNewPassword")] ChangePasswordDetails changePasswordDetails)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (changePasswordDetails.NewPassword == changePasswordDetails.ReNewPassword)
+                    {
+                        var user = UserForChangePassword(changePasswordDetails.Password);
+                        if (user != null)
+                        {
+                            user.Password = changePasswordDetails.NewPassword;
+                            _context.Update(user);
+                            _context.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "סיסמה לא נכונה");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "הסיסמאות שהוכנסו אינן תואמות");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError(string.Empty, "שגיאה התרחשה בעת החלפת הסיסמה");
+            }
+
+            return View(changePasswordDetails);
+        }
+
+        [Authorize]
+        public IActionResult Edit()
+        {
+            var currentUser = _context.User.Find(ClaimsExtension.GetUserId(HttpContext));
+            var currentDetails = new UpdateAccountDetails()
+            {
+                EMail = currentUser.EMail,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName
+            };
+            return View(currentDetails);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([Bind("FirstName,LastName,EMail")] UpdateAccountDetails updateAccountDetails)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var currentUser = _context.User.Find(ClaimsExtension.GetUserId(HttpContext));
+                    currentUser.EMail = updateAccountDetails.EMail;
+                    currentUser.FirstName = updateAccountDetails.FirstName;
+                    currentUser.LastName = updateAccountDetails.LastName;
+                    _context.Update(currentUser);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError(string.Empty, "שגיאה התרחשה בעת עדכון הפרטים האישיים");
+            }
+
+            return View(updateAccountDetails);
+        }
+
     }
 }

@@ -39,13 +39,13 @@
                 <input asp-for="Address" class="form-control" id="address_name" />
                 <span asp-validation-for="Address" class="text-danger"></span>
                 <span>
-                    <input type="button" class="btn bg-primary" value="בחר כתובת" onclick="SelectName()" />
+                    <input type="button" class="btn bg-primary" value="בחר כתובת" onclick="OpenMap()" />
                 </span>
 
                 <script type="text/javascript">
                     var popup;
-                    function SelectName() {
-                        popup = window.open("/map_popup.html", "Popup", "width=900,height=700");
+                    function OpenMap() {
+                        popup = window.open("/select_address.html", "Popup", "width=900,height=700");
                         popup.focus();
                     }
                 </script>

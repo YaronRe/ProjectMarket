@@ -31,7 +31,11 @@
                 <h3>מחיר במטבעות אחרים, נכון לתאריך <span id="OtherCurrencyDate">טוען...</span></h3>
                 <span id="PriceInUSD">טוען...</span> $<br />
                 <span id="PriceInEUR">טוען...</span> &euro;<br />
+                <h3>כתובת לבירורים</h3>
+                <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
+
             </div>
+            <input type="button" class="btn bg-primary" value="הצג על המפה" onclick="OpenMap()" />
         </div>
         <div class="col-md-3">
             <aside class="well well-lg">
@@ -117,3 +121,14 @@
     });
     </script>
     }
+</div>
+
+
+<script type="text/javascript">
+    var popup;
+    var page = 'details';
+    function OpenMap() {
+        popup = window.open("/view_address.html", "Popup", "width=900,height=700");
+        popup.focus();
+    }
+</script>

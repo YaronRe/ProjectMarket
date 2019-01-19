@@ -19,14 +19,18 @@
             </header>
             <div class="project-info">
                 <h3>תיאור הפרויקט</h3>
-                @Html.DisplayFor(model => model.Description)                
+                @Html.DisplayFor(model => model.Description)
                 <h3>@Html.DisplayNameFor(model => model.Price)</h3>
                 @Html.DisplayFor(model => model.Price)
                 <h3>מוסד אקדמי</h3>
                 @Html.DisplayFor(model => model.AcademicInstitute.Name)
                 <h3>תחום לימוד</h3>
                 @Html.DisplayFor(model => model.FieldOfStudy.Name)
+                <h3>כתובת לבירורים</h3>
+                <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
+
             </div>
+            <input type="button" class="btn bg-primary" value="הצג על המפה" onclick="OpenMap()" />
         </div>
         <div class="col-md-3">
             <aside class="well well-lg">
@@ -40,7 +44,7 @@
     </div>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
         קנה
-        </button>
+    </button>
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <hr />
     <dl class="dl-horizontal">
@@ -75,7 +79,7 @@
             @Html.DisplayFor(model => model.FieldOfStudy.Name)
         </dd>
     </dl>
-    </section>
+</section>
 
 
 <!-- Modal -->
@@ -90,11 +94,21 @@
                 <p>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name) </p>
                 @Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(model => model.Price)
 
-                </div>
+            </div>
             <div class="modal-footer">
-                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a> 
+                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    var popup;
+    var page = 'details';
+    function OpenMap() {
+        popup = window.open("/view_address.html", "Popup", "width=900,height=700");
+        popup.focus();
+    }
+</script>

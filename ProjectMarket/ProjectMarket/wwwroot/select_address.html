@@ -187,18 +187,22 @@
                             autocomplete.setOptions({ strictBounds: this.checked });
                         });
 
-
                 }
+
+
                 function SetAddress() {
                     if (window.opener != null && !window.opener.closed) {
                         var addressName = window.opener.document.getElementById("address_name");
                         addressName.value = document.getElementById("pac-input").value;
+
+                        window.close();
                     }
-                    window.close();
                 }
 
+
+
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUK6zsIjv3TeWKNbPDyo6zRg836MJyhPI&libraries=places&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap"
             async defer></script>
 </body>
 </html>

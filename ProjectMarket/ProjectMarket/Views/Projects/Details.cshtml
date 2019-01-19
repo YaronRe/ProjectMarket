@@ -19,13 +19,18 @@
             </header>
             <div class="project-info">
                 <h3>תיאור הפרויקט</h3>
-                @Html.DisplayFor(model => model.Description)                
+                @Html.DisplayFor(model => model.Description)
                 <h3>@Html.DisplayNameFor(model => model.Price)</h3>
                 @Html.DisplayFor(model => model.Price)
                 <h3>מוסד אקדמי</h3>
                 @Html.DisplayFor(model => model.AcademicInstitute.Name)
                 <h3>תחום לימוד</h3>
                 @Html.DisplayFor(model => model.FieldOfStudy.Name)
+                <h3>מחיר</h3>
+                @Html.DisplayFor(model => model.Price) &#8362;
+                <h3>מחיר במטבעות אחרים, נכון לתאריך <span id="OtherCurrencyDate">טוען...</span></h3>
+                <span id="PriceInUSD">טוען...</span> $<br />
+                <span id="PriceInEUR">טוען...</span> &euro;<br />
             </div>
         </div>
         <div class="col-md-3">
@@ -40,7 +45,7 @@
     </div>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
         קנה
-        </button>
+    </button>
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <hr />
     <dl class="dl-horizontal">
@@ -75,7 +80,7 @@
             @Html.DisplayFor(model => model.FieldOfStudy.Name)
         </dd>
     </dl>
-    </section>
+</section>
 
 
 <!-- Modal -->
@@ -90,11 +95,25 @@
                 <p>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name) </p>
                 @Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(model => model.Price)
 
-                </div>
+            </div>
             <div class="modal-footer">
-                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a> 
+                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+    let priceInILS = @Html.DisplayFor(model => model.Price);
+    $.get("http://data.fixer.io/api/latest?access_key=9f0fd7c399b893f3a48c4d3708571da1&symbols=USD,ILS&format=1", (data) => {
+        $("#OtherCurrencyDate").text(data.date);
+        console.log(data);
+        // Next line is because the value in data.rates.ILS represents the amount of 1 EUR in ILS
+        let priceInEUR = priceInILS / data.rates.ILS;
+        $("#PriceInEUR").text(priceInEUR.toFixed(2));
+        $("#PriceInUSD").text((priceInEUR * data.rates.USD).toFixed(2));
+    });
+    </script>
+    }

@@ -35,7 +35,7 @@
                 <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
 
             </div>
-            <input type="button" class="btn bg-primary" value="הצג על המפה" onclick="OpenMap()" />
+
         </div>
         <div class="col-md-3">
             <aside class="well well-lg">
@@ -45,6 +45,10 @@
                     <strong>@Html.DisplayFor(model => model.Owner.FullName)</strong>
                 </div>
             </aside>
+        </div>
+
+        <div class="col-md-3">
+            <div id="map"></div>
         </div>
     </div>
     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
@@ -108,6 +112,7 @@
     </div>
 </div>
 
+
 @section Scripts {
     <script>
     let priceInILS = @Html.DisplayFor(model => model.Price);
@@ -120,15 +125,66 @@
         $("#PriceInUSD").text((priceInEUR * data.rates.USD).toFixed(2));
     });
     </script>
-    }
-</div>
+}
+
+<script>
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 
-<script type="text/javascript">
-    var popup;
-    var page = 'details';
-    function OpenMap() {
-        popup = window.open("/view_address.html", "Popup", "width=900,height=700");
-        popup.focus();
+    var geocoder;
+    var map;
+    var address = document.getElementById("details_address_name").textContent;
+
+    function initialize() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(-34.397, 150.644);
+        var myOptions = {
+            zoom: 16,
+            center: latlng,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            },
+            navigationControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+        if (geocoder) {
+            geocoder.geocode({
+                'address': address
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                        map.setCenter(results[0].geometry.location);
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<b>' + address + '</b>',
+                            size: new google.maps.Size(150, 50)
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map,
+                            title: address
+                        });
+                        google.maps.event.addListener(marker, 'click', function () {
+                            infowindow.open(map, marker);
+                        });
+
+                    } else {
+                        alert("No results found");
+                    }
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+        }
     }
+
+
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApEjITbA_CZ1oAm-ZfHZ79teslZGaG9Fg&libraries=places&language=iw&callback=initialize"
+        async defer></script>
+

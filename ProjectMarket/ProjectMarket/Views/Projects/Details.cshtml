@@ -9,82 +9,82 @@
 }
 
 
-<section style="margin-top: 30px;">
-    <div class="row">
-        <div class="col-md-9">
-            <header class="project-header">
-                <div class="project-header-bg">
-                    <h2>@Html.DisplayFor(model => model.Name)</h2>
-                </div>
-            </header>
-            <div class="project-info">
-                <h3>תיאור הפרויקט</h3>
-                @Html.DisplayFor(model => model.Description)
-                <h3>@Html.DisplayNameFor(model => model.Price)</h3>
-                @Html.DisplayFor(model => model.Price)
-                <h3>מוסד אקדמי</h3>
-                @Html.DisplayFor(model => model.AcademicInstitute.Name)
-                <h3>תחום לימוד</h3>
-                @Html.DisplayFor(model => model.FieldOfStudy.Name)
-                <h3>מחיר</h3>
-                @Html.DisplayFor(model => model.Price) &#8362;
-                <h3>מחיר במטבעות אחרים, נכון לתאריך <span id="OtherCurrencyDate">טוען...</span></h3>
-                <span id="PriceInUSD">טוען...</span> $<br />
-                <span id="PriceInEUR">טוען...</span> &euro;<br />
-                <h3>כתובת לבירורים</h3>
-                <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
+    <section style="margin-top: 30px;">
+        <div class="row">
+            <div class="col-md-9">
+                <header class="project-header">
+                    <div class="project-header-bg">
+                        <h2>@Html.DisplayFor(model => model.Name)</h2>
+                    </div>
+                </header>
+                <div class="project-info">
+                    <h3>תיאור הפרויקט</h3>
+                    @Html.DisplayFor(model => model.Description)
+                    <h3>@Html.DisplayNameFor(model => model.Price)</h3>
+                    @Html.DisplayFor(model => model.Price)
+                    <h3>מוסד אקדמי</h3>
+                    @Html.DisplayFor(model => model.AcademicInstitute.Name)
+                    <h3>תחום לימוד</h3>
+                    @Html.DisplayFor(model => model.FieldOfStudy.Name)
+                    <h3>מחיר</h3>
+                    @Html.DisplayFor(model => model.Price) &#8362;
+                    <h3>מחיר במטבעות אחרים, נכון לתאריך <span id="OtherCurrencyDate">טוען...</span></h3>
+                    <span id="PriceInUSD">טוען...</span> $<br />
+                    <span id="PriceInEUR">טוען...</span> &euro;<br />
+                    <h3>כתובת לבירורים</h3>
+                    <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
 
-            </div>
-            <input type="button" class="btn bg-primary" value="הצג על המפה" onclick="OpenMap()" />
-        </div>
-        <div class="col-md-3">
-            <aside class="well well-lg">
-                <img src="~/images/Student.jpg" class="img-responsive img-circle" />
-                <hr />
-                <div class="text-center">
-                    <strong>@Html.DisplayFor(model => model.Owner.FullName)</strong>
                 </div>
-            </aside>
+                <input type="button" class="btn bg-primary" value="הצג על המפה" onclick="OpenMap()" />
+            </div>
+            <div class="col-md-3">
+                <aside class="well well-lg">
+                    <img src="~/images/Student.jpg" class="img-responsive img-circle" />
+                    <hr />
+                    <div class="text-center">
+                        <strong>@Html.DisplayFor(model => model.Owner.FullName)</strong>
+                    </div>
+                </aside>
+            </div>
         </div>
-    </div>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-        קנה
-    </button>
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AcademicInstitute)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AcademicInstitute.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FieldOfStudy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FieldOfStudy.Name)
-        </dd>
-    </dl>
-</section>
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            קנה
+        </button>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AcademicInstitute)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AcademicInstitute.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FieldOfStudy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FieldOfStudy.Name)
+            </dd>
+        </dl>
+    </section>
 
 
 <!-- Modal -->

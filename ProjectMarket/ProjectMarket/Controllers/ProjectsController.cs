@@ -67,17 +67,18 @@ namespace ProjectMarket.Controllers
         {
             bool includeDeleted = filter.IncludeDeleted && ClaimsExtension.IsAdmin(HttpContext);
             IEnumerable<ProjectInStoreView> projects =
-                (from p in _context.Project
-                 join u in _context.User on p.OwnerId equals u.Id
-                 join s in _context.Sale on p.Id equals s.ProjectId
-                 where ((includeDeleted || (!p.IsDeleted && !u.IsDeleted )) &&
-                    (!filter.UserId.HasValue ||  p.OwnerId == filter.UserId.Value) &&
-                    p.Name.Contains(filter.Name ?? "") &&
-                    (!filter.MaxPrice.HasValue || p.Price <= filter.MaxPrice.Value) &&
-                    (!filter.MinPrice.HasValue || p.Price >= filter.MinPrice.Value) &&
-                    (!filter.FieldOfStudyId.HasValue || p.FieldOfStudyId == filter.FieldOfStudyId.Value)
+                (from project in _context.Project
+                 join user in _context.User on project.OwnerId equals user.Id
+                 join sale in _context.Sale on project.Id equals sale.ProjectId //into sales
+                 //from sale in sales.DefaultIfEmpty(new Sale() { Grade = -1, Rank = -1, ProjectId = project.Id })
+                 where ((includeDeleted || (!project.IsDeleted && !user.IsDeleted )) &&
+                    (!filter.UserId.HasValue || project.OwnerId == filter.UserId.Value) &&
+                    project.Name.Contains(filter.Name ?? "") &&
+                    (!filter.MaxPrice.HasValue || project.Price <= filter.MaxPrice.Value) &&
+                    (!filter.MinPrice.HasValue || project.Price >= filter.MinPrice.Value) &&
+                    (!filter.FieldOfStudyId.HasValue || project.FieldOfStudyId == filter.FieldOfStudyId.Value)
                  ) 
-                 group new { s.Grade, s.Rank } by new { s.ProjectId, p.Description, p.Name } into proj
+                 group new { sale.Grade, sale.Rank } by new { sale.ProjectId, project.Description, project.Name } into proj
                  select new ProjectInStoreView()
                  {
                      Id = proj.Key.ProjectId,

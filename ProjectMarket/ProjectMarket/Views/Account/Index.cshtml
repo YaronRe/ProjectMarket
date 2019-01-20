@@ -44,3 +44,128 @@
 <div>
     <a asp-action="ChangePassword">שנה סיסמה</a> | <a asp-action="Edit">עדכן פרטים</a>
 </div>
+
+<h2>הפרויקטים שלי</h2>
+
+<p>
+    <a asp-action="Create">הוספת פרויקט</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                שם הפרויקט
+            </th>
+            <th>
+                תיאור
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Project>)ViewData["MyProjects"]).Count() > 0)
+        {
+            @foreach (var item in ((IReadOnlyCollection<Project>)ViewData["MyProjects"]))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">עריכה</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">פרטים</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">מחיקה</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td rowspan="3"> עוד לא יצרת פרויקטים </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<h2>הפרויקטים שקניתי</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                שם הפרויקט
+            </th>
+            <th>
+                תיאור
+            </th>
+            <th>מחיר קניה</th>
+            <th>דירוג</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Sale>)ViewData["PurchasedProjects"]).Count() > 0)
+        {
+            @foreach (var item in ((IReadOnlyCollection<Sale>)ViewData["PurchasedProjects"]))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Project.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Project.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) ש"ח
+                    </td>
+                    <td>
+                        @if (item.Rank == null)
+                        {
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                דרג
+                            </button>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Rank)
+                        }
+
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td rowspan="3"> עוד לא רכשת פרויקטים </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">קניית פרוייקט</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+            </div>
+        </div>
+    </div>
+</div>

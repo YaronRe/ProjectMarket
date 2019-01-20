@@ -37,3 +37,10 @@
     font-family: 'Heebo', sans-serif;
     padding: 10px;
 }
+
+#map {
+    height: 500px;
+    width: 500px;
+}
+
+

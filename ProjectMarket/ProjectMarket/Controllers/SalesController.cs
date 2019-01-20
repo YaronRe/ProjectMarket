@@ -83,7 +83,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Price,Grade,MeetingLocationX,MeetingLocationY,Rank")] Sale sale)
+        public async Task<IActionResult> Create([Bind("Id,Price,MeetingLocationX,MeetingLocationY")] Sale sale)
         {
             if (ModelState.IsValid)
             {

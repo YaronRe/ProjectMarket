@@ -167,6 +167,8 @@ namespace ProjectMarket.Controllers
         {
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Id == ClaimsExtension.GetUserId(HttpContext));
+            ViewData["MyProjects"] = _context.Project.Where(proj => proj.OwnerId == user.Id).ToList();
+            ViewData["PurchasedProjects"] = _context.Sale.Where(sale => sale.BuyerId == user.Id).Include(sale => sale.Project).ToList();
             if (user == null)
             {
                 return NotFound();

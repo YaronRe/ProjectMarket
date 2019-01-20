@@ -9,30 +9,30 @@
 }
 
 
-<section style="margin-top: 30px;">
-    <div class="row">
-        <div class="col-md-9">
-            <header class="project-header">
-                <div class="project-header-bg">
-                    <h2>@Html.DisplayFor(model => model.Name)</h2>
-                </div>
-            </header>
-            <div class="project-info">
-                <h3>תיאור הפרויקט</h3>
-                @Html.DisplayFor(model => model.Description)
-                <h3>@Html.DisplayNameFor(model => model.Price)</h3>
-                @Html.DisplayFor(model => model.Price)
-                <h3>מוסד אקדמי</h3>
-                @Html.DisplayFor(model => model.AcademicInstitute.Name)
-                <h3>תחום לימוד</h3>
-                @Html.DisplayFor(model => model.FieldOfStudy.Name)
-                <h3>מחיר</h3>
-                @Html.DisplayFor(model => model.Price) &#8362;
-                <h3>מחיר במטבעות אחרים, נכון לתאריך <span id="OtherCurrencyDate">טוען...</span></h3>
-                <span id="PriceInUSD">טוען...</span> $<br />
-                <span id="PriceInEUR">טוען...</span> &euro;<br />
-                <h3>כתובת לבירורים</h3>
-                <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
+    <section style="margin-top: 30px;">
+        <div class="row">
+            <div class="col-md-9">
+                <header class="project-header">
+                    <div class="project-header-bg">
+                        <h2>@Html.DisplayFor(model => model.Name)</h2>
+                    </div>
+                </header>
+                <div class="project-info">
+                    <h3>תיאור הפרויקט</h3>
+                    @Html.DisplayFor(model => model.Description)
+                    <h3>@Html.DisplayNameFor(model => model.Price)</h3>
+                    @Html.DisplayFor(model => model.Price)
+                    <h3>מוסד אקדמי</h3>
+                    @Html.DisplayFor(model => model.AcademicInstitute.Name)
+                    <h3>תחום לימוד</h3>
+                    @Html.DisplayFor(model => model.FieldOfStudy.Name)
+                    <h3>מחיר</h3>
+                    @Html.DisplayFor(model => model.Price) &#8362;
+                    <h3>מחיר במטבעות אחרים, נכון לתאריך <span id="OtherCurrencyDate">טוען...</span></h3>
+                    <span id="PriceInUSD">טוען...</span> $<br />
+                    <span id="PriceInEUR">טוען...</span> &euro;<br />
+                    <h3>כתובת לבירורים</h3>
+                    <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
 
             </div>
 

@@ -45,11 +45,14 @@
     <a asp-action="ChangePassword">שנה סיסמה</a> | <a asp-action="Edit">עדכן פרטים</a>
 </div>
 
-<h2>הפרויקטים שלי</h2>
 
-<p>
-    <a asp-action="Create">הוספת פרויקט</a>
-</p>
+
+<div class="card-content">
+    @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Project>)ViewData["MyProjects"]).Count() > 0)
+    {
+<div class="card-desc">
+    <h3>הפרויקטים שלי</h3>
+</div>
 
 <table class="table">
     <thead>
@@ -64,8 +67,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Project>)ViewData["MyProjects"]).Count() > 0)
-        {
+
             @foreach (var item in ((IReadOnlyCollection<Project>)ViewData["MyProjects"]))
             {
                 <tr>
@@ -78,27 +80,39 @@
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">עריכה</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">פרטים</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">מחיקה</a>
                     </td>
                 </tr>
             }
+
+    </tbody>
+    </table>
         }
         else
         {
-            <tr>
-                <td rowspan="3"> עוד לא יצרת פרויקטים </td>
-            </tr>
+            <div class="card-desc">
+                <h3> עוד לא יצרת פרויקטים </h3>
+            </div>
         }
-    </tbody>
-</table>
+<div class="card-desc">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal">
+        <a asp-action="Create"> הוספת פרויקט</a>
+    </button>
+    </div>
+</div>
+
+    
 
 
+<div class="card-content">
+@if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Sale>) ViewData["PurchasedProjects"]).Count() > 0)
+{
+    <div class="card-desc">
+        <h3>הפרויקטים שקניתי</h3>
+    </div>
 
-<h2>הפרויקטים שקניתי</h2>
 
-
-<table class="table">
-    <thead>
+    <table class="table">
+        <thead>
         <tr>
             <th>
                 שם הפרויקט
@@ -108,47 +122,55 @@
             </th>
             <th>מחיר קניה</th>
             <th>דירוג</th>
+            <th>ציון</th>
         </tr>
-    </thead>
-    <tbody>
-        @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Sale>)ViewData["PurchasedProjects"]).Count() > 0)
-        {
-            @foreach (var item in ((IReadOnlyCollection<Sale>)ViewData["PurchasedProjects"]))
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Project.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Project.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price) ש"ח
-                    </td>
-                    <td>
-                        @if (item.Rank == null)
-                        {
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                                דרג
-                            </button>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(modelItem => item.Rank)
-                        }
+        </thead>
+        <tbody>
 
-                    </td>
-                </tr>
+            @foreach (var item in ((IReadOnlyCollection<Sale>) ViewData["PurchasedProjects"]))
+             {
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Project.Name)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Project.Description)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Price) ש"ח
+                     </td>
+            @if (item.Rank == null)
+            {
+                <td colspan="2">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                        עדכן
+                    </button>
+                </td>
             }
-        }
-        else
-        {
-            <tr>
-                <td rowspan="3"> עוד לא רכשת פרויקטים </td>
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rank)
+                </td>
+                <td>
+  
+                    @Html.DisplayFor(modelItem => item.Grade)
+                </td>
+            }
+                  
             </tr>
-        }
-    </tbody>
-</table>
+             }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="card-desc">
+        <h3> עוד לא רכשת פרויקטים </h3>
+    </div>
+}
+</div>
 
 
 <!-- Modal -->
@@ -163,8 +185,8 @@
 
             </div>
             <div class="modal-footer">
-                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">קנה</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">עדכן</a>
+                <button type="button" class="btn" data-dismiss="modal">סגור</button>
             </div>
         </div>
     </div>

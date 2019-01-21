@@ -54,28 +54,44 @@ namespace ProjectMarket.Controllers
         public async Task<IActionResult> Filter(ProjectFilter filter)
         {
             bool includeDeleted = filter.IncludeDeleted && ClaimsExtension.IsAdmin(HttpContext);
-            IEnumerable<ProjectInStoreView> projects =
+            
+            var projectsGroup =
                 (from project in _context.Project
-                 join user in _context.User on project.OwnerId equals user.Id
-                 join sale in _context.Sale on project.Id equals sale.ProjectId //into sales
-                 //from sale in sales.DefaultIfEmpty(new Sale() { Grade = -1, Rank = -1, ProjectId = project.Id })
-                 where ((includeDeleted || (!project.IsDeleted && !user.IsDeleted )) &&
-                    (!filter.UserId.HasValue || project.OwnerId == filter.UserId.Value) &&
-                    project.Name.Contains(filter.Name ?? "") &&
-                    (!filter.MaxPrice.HasValue || project.Price <= filter.MaxPrice.Value) &&
-                    (!filter.MinPrice.HasValue || project.Price >= filter.MinPrice.Value) &&
-                    (!filter.FieldOfStudyId.HasValue || project.FieldOfStudyId == filter.FieldOfStudyId.Value)
-                 ) 
-                 group new { sale.Grade, sale.Rank } by new { sale.ProjectId, project.Description, project.Name } into proj
-                 select new ProjectInStoreView()
-                 {
-                     Id = proj.Key.ProjectId,
-                     Description = proj.Key.Description,
-                     Name = proj.Key.Name,
-                     AvgGrade = proj.Select(x => (double)x.Grade).Average(),
-                     Rank = proj.Select(x => (double)x.Rank).Average()
-                 });
+                    join user in _context.User on project.OwnerId equals user.Id
+                    join sale in _context.Sale on project.Id equals sale.ProjectId into sales
+                    from subsale in sales.DefaultIfEmpty()
+                    where ((includeDeleted || (!project.IsDeleted && !user.IsDeleted)) &&
+                           (!filter.UserId.HasValue || project.OwnerId == filter.UserId.Value) &&
+                           project.Name.Contains(filter.Name ?? "") &&
+                           (!filter.MaxPrice.HasValue || project.Price <= filter.MaxPrice.Value) &&
+                           (!filter.MinPrice.HasValue || project.Price >= filter.MinPrice.Value) &&
+                           (!filter.FieldOfStudyId.HasValue || project.FieldOfStudyId == filter.FieldOfStudyId.Value)
+                        )
+                 select new
+                    {
+                        Id = project.Id,
+                        Description = project.Description,
+                        Name = project.Name,
+                        Grade = subsale.Grade,
+                        Rank = subsale.Rank
+                    })
+                .GroupBy( x=> new {x.Id,x.Description,x.Name});
 
+            List<ProjectInStoreView> projects = new List<ProjectInStoreView>();
+            foreach (var group in projectsGroup)
+            {
+                var proj = new ProjectInStoreView()
+                {
+                    Id = group.Key.Id,
+                    Description = group.Key.Description,
+                    Name = group.Key.Name
+                };
+                var grades = group.Where(x => x.Grade.HasValue);
+                proj.AvgGrade = grades.Any() ? new double?(grades.Select(x => (double)x.Grade.Value).Average()) : null;
+                var ranks = group.Where(x => x.Rank.HasValue);
+                proj.Rank = ranks.Any() ? new double?(ranks.Select(x => (double)x.Rank.Value).Average()) : null;
+                projects.Add(proj);
+            }
             return Json(projects);
         }
 

@@ -22,6 +22,7 @@ namespace ProjectMarket.Controllers
         }
 
         // GET: Users
+        [Authorize(Roles = ClaimsExtension.Admin)]
         public async Task<IActionResult> Index()
         {
             return View(await _context.User.Where(m => !m.IsDeleted).ToListAsync());

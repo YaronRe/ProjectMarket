@@ -115,12 +115,12 @@
 
 @section Scripts {
     <script>
-    let priceInILS = @Html.DisplayFor(model => model.Price);
+    var priceInILS = @Html.DisplayFor(model => model.Price);
     $.get("http://data.fixer.io/api/latest?access_key=9f0fd7c399b893f3a48c4d3708571da1&symbols=USD,ILS&format=1", (data) => {
         $("#OtherCurrencyDate").text(data.date);
         console.log(data);
         // Next line is because the value in data.rates.ILS represents the amount of 1 EUR in ILS
-        let priceInEUR = priceInILS / data.rates.ILS;
+        var priceInEUR = priceInILS / data.rates.ILS;
         $("#PriceInEUR").text(priceInEUR.toFixed(2));
         $("#PriceInUSD").text((priceInEUR * data.rates.USD).toFixed(2));
     });

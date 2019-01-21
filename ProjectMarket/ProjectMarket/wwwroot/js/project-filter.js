@@ -37,8 +37,8 @@
                     var rankHtml = `<h6>${item.rank} / 5</h6>`;
                     var avgHtml = `<h6>${item.avgGrade}</h6>`;
                 } else {
-                    var rankHtml = `<h6>-</h6>`;
-                    var avgHtml = `<h6>-</h6>`;
+                    var rankHtml = "<h6>-</h6>";
+                    var avgHtml = "<h6>-</h6>";
                 }
                 let detailsLink = `<a href="/Projects/Details/${item.id}" class="btn-card">פרטים</a>`;
                 let buyLink = `<a href="/Sales/Buy/${item.id}" class="btn-card">קנה</a>`;

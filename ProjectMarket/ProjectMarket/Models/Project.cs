@@ -34,11 +34,9 @@ namespace ProjectMarket.Models
         [Display(Name = "מחיר")]
         public double Price { get; set; }
 
-        public User Owner { get; set; }
         public int OwnerId { get; set; }
+        public User Owner { get; set; }
 
-        public double LocationLongitude { get; set; }
-        public double LocationLatitude { get; set; }
         [MaxLength(300)]
         [Display(Name = "כתובת לברורים")]
         public string Address { get; set; }

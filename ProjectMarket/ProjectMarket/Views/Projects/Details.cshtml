@@ -9,7 +9,7 @@
 }
 
 
-    <section style="margin-top: 30px;">
+<section style="margin-top: 30px;">
         <div class="row">
             <div class="col-md-9">
                 <header class="project-header">
@@ -76,8 +76,38 @@
     </div>
 </div>
 
+    <div id="pie"></div>
 
 @section Scripts {
+    <script src="~/lib/d3/d3.min.js"></script>
+    <script src="~/lib/d3pie/d3pie.min.js"></script>
+    <script>
+        
+        $.ajax({url: "/Projects/Statistics/@Model.Id", success: function(result) {            
+           
+            if (result.length === 0) {
+                return;
+            }
+            var pie = new d3pie("pie", {
+                header: {
+                    title: {
+                        text: "התפלגות ציונים"
+                    },
+                    location: "pie-center"
+                },
+                size: {
+                    pieInnerRadius: "80%"
+                },
+                data: {
+                    sortOrder: "label-asc",
+                    content: result
+                }
+            });
+            
+        }});
+
+    </script>
+    
     <script>
     var priceInILS = @Html.DisplayFor(model => model.Price);
     $.get("http://data.fixer.io/api/latest?access_key=9f0fd7c399b893f3a48c4d3708571da1&symbols=USD,ILS&format=1", (data) => {

@@ -35,6 +35,24 @@
                 let descHtml = `<p>${item.description}</p>`;
                 let detailsLink = `<a href="/Projects/Details/${item.id}" class="btn">פרטים</a>`;
                 let buyLink = `<a href="/Sales/Buy/${item.id}" class="btn">קנה</a>`;
+                let grade = "";
+                if (item.avgGrade == null) {
+                    grade = `<div class="col-xs-1">
+                                <i class="far fa-star null-icon" title="עוד לא הוזן דירוג'"></i>
+                             </div>
+                             <div class="col-xs-1">
+                                <i class="far fa-file null-icon" title="לא הוזנו ציונים"></i>
+                             </div>`
+                } else {
+                    grade = `<div class="col-xs-1">
+                                 <i class="far fa-star" title="דירוג (מתוך חמש)">${item.rank}</i>
+                             </div>                     
+                             
+                             <div class="col-xs-1">
+                                 <i class="far fa-file" title="ציון מומצע">${item.avgGrade}</i>
+                             </div>`
+                }
+                
                 let divs = `
                             <div class="col-md-4"> 
                                 <div class="card-content"> 
@@ -43,12 +61,7 @@
                                             <div class="col-xs-9">
                                                 <h3>${nameHtml}</h3>
                                             </div>
-                                            <div class="col-xs-1">
-                                                <i class="far fa-star" title="${item.rank ? 'דירוג (מתוך 5)' : 'עוד לא הוזן דירוג'}">${item.rank || ''}</i>
-                                            </div>
-                                           <div class="col-xs-1">
-                                               <i class="far fa-file" title="${item.grade ? 'ציון ממוצע' : 'לא הוזנו ציונים'}">${item.avgGrade || ''}</i>
-                                           </div>
+                                            ${grade}
                                     </div>
                                     <div class="card-body">
                                         ${descHtml}

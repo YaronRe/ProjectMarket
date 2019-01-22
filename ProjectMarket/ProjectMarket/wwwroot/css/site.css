@@ -116,3 +116,7 @@ a.btn-card {
     direction: ltr; 
     padding: 20px;
 }
+
+.null-icon {
+    color: #c3c3c3;
+}

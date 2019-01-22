@@ -33,8 +33,13 @@
                 let item = data[i];
                 let nameHtml = `<h3>${item.name}</h3>`;
                 let descHtml = `<p>${item.description}</p>`;
-                let rankHtml = `<h6>${item.rank} / 5</h6>`;
-                let avgHtml = `<h6>${item.avgGrade}</h6>`;
+                if (item.rank) {
+                    var rankHtml = `<h6>${item.rank} / 5</h6>`;
+                    var avgHtml = `<h6>${item.avgGrade}</h6>`;
+                } else {
+                    var rankHtml = "<h6>-</h6>";
+                    var avgHtml = "<h6>-</h6>";
+                }
                 let detailsLink = `<a href="/Projects/Details/${item.id}" class="btn-card">פרטים</a>`;
                 let buyLink = `<a href="/Sales/Buy/${item.id}" class="btn-card">קנה</a>`;
                 let divs = `<div class="col-md-4"> <div class="card-content"> <div class="card-desc"> ${nameHtml} ${descHtml} ${rankHtml} ${avgHtml} ${detailsLink} ${buyLink} </div></div></div>`;

@@ -1,4 +1,6 @@
-﻿@model ProjectMarket.Models.User
+﻿@using Microsoft.CodeAnalysis
+@using Project = ProjectMarket.Models.Project
+@model ProjectMarket.Models.User
 
 @{
     ViewData["Title"] = "ניהול חשבון";
@@ -152,7 +154,7 @@
             @if (item.Rank == null)
             {
                 <td colspan="2">
-                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-sale-id="@item.Id" data-target="#myModal">
                         עדכן
                     </button>
                 </td>
@@ -184,20 +186,18 @@ else
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">קניית פרוייקט</h4>
-            </div>
-            <div class="modal-body">
+<partial name="Grade" model="new Sale()"/>
 
-            </div>
-            <div class="modal-footer">
-                <a asp-controller="Sales" asp-action="Buy" asp-route-id="@Model.Id" class="btn btn-primary">עדכן</a>
-                <button type="button" class="btn" data-dismiss="modal">סגור</button>
-            </div>
-        </div>
-    </div>
-</div>
+@section Scripts
+{
+    <script>
+        $('#myModal').on('show.bs.modal', function(e) {
+
+            //get data-id attribute of the clicked element
+            var saleId = $(e.relatedTarget).data('sale-id');
+
+            //populate the textbox
+            $(e.currentTarget).find('input[class="saleId"]').val(saleId);
+        });
+    </script>
+}

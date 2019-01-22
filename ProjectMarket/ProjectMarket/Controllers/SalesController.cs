@@ -178,5 +178,20 @@ namespace ProjectMarket.Controllers
         {
             return _context.Sale.Any(e => e.Id == id);
         }
+
+        public IActionResult Grade([Bind("Id,Grade,Rank")] Sale sale)
+        {
+            var Sale = _context.Sale.Find(sale.Id);
+
+            if (Sale != null)
+            {
+                return NotFound();
+            }
+
+            Sale.Grade = sale.Grade;
+            Sale.Rank = sale.Rank;
+            _context.Sale.Update(Sale);
+            return RedirectToAction("Index", "Account");
+        }
     }
 }

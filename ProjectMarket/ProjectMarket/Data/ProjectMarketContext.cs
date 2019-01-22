@@ -52,12 +52,12 @@ namespace ProjectMarket.Models
                 new Project() {Id = 8,Name = "NotGraded" , OwnerId = 4,Description="",AcademicInstituteId=1,FieldOfStudyId = 2,IsDeleted=false,Price=60.0 }
                 );
             modelBuilder.Entity<Sale>().HasData(
-                new Sale() { Id= 1,ProjectId = 3,BuyerId = 1,Price = 0.0,AcademicInstituteId= null,Rank=null,Grade=null},
+                new Sale() { Id= 1,ProjectId = 3,BuyerId = 1,Price = 0.0,AcademicInstituteId= 1,Rank=null,Grade=null},
                 new Sale() { Id= 2,ProjectId = 5,BuyerId = 1,Price = 0.0,AcademicInstituteId= 1,Rank=2,Grade=70},
-                new Sale() { Id= 3,ProjectId = 6,BuyerId = 3,Price = 0.0,AcademicInstituteId= null,Rank=null,Grade=null},
+                new Sale() { Id= 3,ProjectId = 6,BuyerId = 3,Price = 0.0,AcademicInstituteId= 2,Rank=null,Grade=null},
                 new Sale() { Id= 4,ProjectId = 6,BuyerId = 5,Price = 0.0,AcademicInstituteId= 2,Rank=3,Grade=70},
                 new Sale() { Id= 5,ProjectId = 7,BuyerId = 3,Price = 0.0,AcademicInstituteId= 1,Rank=4,Grade=80},
-                new Sale() { Id= 6,ProjectId = 8,BuyerId = 3,Price = 0.0,AcademicInstituteId= null,Rank=null,Grade=null}
+                new Sale() { Id= 6,ProjectId = 8,BuyerId = 3,Price = 0.0,AcademicInstituteId= 2,Rank=null,Grade=null}
                 );
 
         }

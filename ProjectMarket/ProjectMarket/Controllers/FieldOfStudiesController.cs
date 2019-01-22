@@ -154,10 +154,10 @@ namespace ProjectMarket.Controllers
             return Json(
                 _context.Project
                 .GroupBy(proj => proj.FieldOfStudy)
-                .Select(g => new Dictionary<string, string>()
+                .Select(g => new Dictionary<string, dynamic>()
                 {
                     { "label", g.Key.Name },
-                    { "value", g.Count().ToString() }
+                    { "value", g.Count() }
                 })
                 .ToList()
                 );

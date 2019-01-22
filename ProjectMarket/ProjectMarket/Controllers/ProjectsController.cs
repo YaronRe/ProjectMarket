@@ -194,7 +194,7 @@ namespace ProjectMarket.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,FieldOfStudyId,AcademicInstituteId")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,FieldOfStudyId,AcademicInstituteId,Address,OwnerId")] Project project)
         {
             if (id != project.Id)
             {

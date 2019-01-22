@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20190122180257_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,19 +144,11 @@ namespace ProjectMarket.Migrations
 
                     b.HasData(
                         new { Id = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Price = 0.0, ProjectId = 3 },
-                        new { Id = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Price = 0.0, ProjectId = 4 },
-                        new { Id = 3, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 2 },
-                        new { Id = 5, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 3 },
-                        new { Id = 6, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 5 },
-                        new { Id = 4, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 6 },
-                        new { Id = 7, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Grade = 80, Price = 0.0, ProjectId = 7, Rank = 4 },
-                        new { Id = 8, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 8 },
-                        new { Id = 10, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 3, Rank = 3 },
-                        new { Id = 11, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 3 },
-                        new { Id = 9, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 },
-                        new { Id = 12, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 3, Rank = 3 },
-                        new { Id = 13, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 3 },
-                        new { Id = 14, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 }
+                        new { Id = 2, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 2 },
+                        new { Id = 3, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 6 },
+                        new { Id = 4, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 },
+                        new { Id = 5, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Grade = 80, Price = 0.0, ProjectId = 7, Rank = 4 },
+                        new { Id = 6, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 8 }
                     );
                 });
 

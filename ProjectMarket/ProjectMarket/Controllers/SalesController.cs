@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
+using ProjectMarket.ViewModels;
 
 namespace ProjectMarket.Controllers
 {
@@ -179,19 +180,22 @@ namespace ProjectMarket.Controllers
             return _context.Sale.Any(e => e.Id == id);
         }
 
-        public IActionResult Grade([Bind("Id,Grade,Rank")] Sale sale)
+        public IActionResult Grade([Bind("Id,Grade,Rank")] GradeView saleView)
         {
-            var Sale = _context.Sale.Find(sale.Id);
-
-            if (Sale == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
+                var sale = _context.Sale.Find(saleView.Id);
 
-            Sale.Grade = sale.Grade;
-            Sale.Rank = sale.Rank;
-            _context.Sale.Update(Sale);
-            _context.SaveChanges();
+                if (sale == null)
+                {
+                    return NotFound();
+                }
+
+                sale.Grade = saleView.Grade;
+                sale.Rank = saleView.Rank;
+                _context.Sale.Update(sale);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index", "Account");
         }
     }

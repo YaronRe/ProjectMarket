@@ -10,12 +10,13 @@ namespace ProjectMarket.Models
     public class Sale
     {
         public int Id { get; set; }
-        [Range(0.0, 10000.0)]
+        [Required(ErrorMessage = "שדה זה הוא חובה")]
+        [Range(0.0, 10000.0,ErrorMessage ="המחיר חייב להיות בין 0 ל10000")]
         public double Price { get; set; }
-        [Range(1, 5)]
+        [Range(1, 5,ErrorMessage ="הדירוג הוא בין 1 ל5")]
         [Display(Name = "דירוג")]
         public int? Rank { get; set; }
-        [Range(0, 100)]
+        [Range(0, 100,ErrorMessage ="ציון חייב להיות בין 0 ל100")]
         [Display(Name = "ציון")]
         public int? Grade { get; set; }
         [Display(Name = "קונה")]

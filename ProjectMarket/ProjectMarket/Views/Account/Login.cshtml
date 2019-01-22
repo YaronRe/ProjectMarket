@@ -8,6 +8,7 @@
 }
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $('#myTabs a').click(function (e) {
             e.preventDefault()
@@ -18,18 +19,18 @@
 
 
 <div class="login-section">
-    
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">התחברות</a></li>
-            <li role="presentation"><a href="#sign" aria-controls="sign" role="tab" data-toggle="tab">הרשמה</a></li>
-        </ul>
 
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="login">
-                <partial name="SignIn" />
-            </div>
-            <div role="tabpanel" class="tab-pane" id="sign">
-                <partial name="Register" />
-            </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">התחברות</a></li>
+        <li role="presentation"><a href="#sign" aria-controls="sign" role="tab" data-toggle="tab">הרשמה</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="login">
+            <partial name="SignIn" />
         </div>
+        <div role="tabpanel" class="tab-pane" id="sign">
+            <partial name="Register" />
+        </div>
+    </div>
 </div>

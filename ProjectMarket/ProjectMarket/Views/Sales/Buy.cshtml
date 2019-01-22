@@ -22,7 +22,7 @@
         <dd>
             <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Buyer.Id">
                 @Html.DisplayFor(model => model.Buyer.UserName)
-            </a> 
+            </a>
         </dd>
         <dt>
             מוכר
@@ -30,10 +30,10 @@
         <dd>
             <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Project.Owner.Id">
                 @Html.DisplayFor(model => model.Project.Owner.UserName)
-            </a> 
+            </a>
 
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.Rank)
         </dt>
@@ -46,3 +46,8 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}

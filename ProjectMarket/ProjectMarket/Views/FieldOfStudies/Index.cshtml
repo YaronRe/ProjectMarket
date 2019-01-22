@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<ProjectMarket.Models.FieldOfStudy>
 
-@{
+    @{
     ViewData["Title"] = "ניהול תחומים";
-}
+    }
 
-@section Scripts{
+    @section Scripts{
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/d3/d3.min.js"></script>
     <script src="~/lib/d3pie/d3pie.min.js"></script>
     <script>
-        
-        $.ajax({url: "FieldOfStudies/Statistics", success: function(result) {            
+
+        $.ajax({url: "FieldOfStudies/Statistics", success: function(result) {
             var pie = new d3pie("pie", {
                 header: {
                     title: {
@@ -25,63 +26,62 @@
                     content: result
                 }
             });
-            
+
         }});
 
     </script>
-    
-}
 
-<h2>ניהול תחומים</h2>
+    }
 
-<p>
-    <a asp-action="Create">צור תחום חדש</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">עריכה</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">פרטים</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">מחיקה</a>
-            </td>    
-        </tr>
-}
-    </tbody>
-</table>
+    <h2>ניהול תחומים</h2>
+
+    <p>
+        <a asp-action="Create">צור תחום חדש</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">עריכה</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">פרטים</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">מחיקה</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
 
 
-<div class="container">
-    <div class="row">
-           
-        @foreach (var item in Model)
-        { <div class="col-md-4">
-              <div class="card-content">
-                  <div class="card-desc">
-                      <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                      <a asp-action="Details" asp-route-id="@item.Id" class="btn">פרטים</a> 
-                      <a asp-controller="Projects" asp-action="FieldOfStudy" asp-route-id="@item.Id" class="btn">פרוייקטים</a> 
-                  </div>
-              </div>
-          </div>    
-        }
+    <div class="container">
+        <div class="row">
+
+            @foreach (var item in Model)
+            { <div class="col-md-4">
+                <div class="card-content">
+                    <div class="card-desc">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn">פרטים</a>
+                        <a asp-controller="Projects" asp-action="FieldOfStudy" asp-route-id="@item.Id" class="btn">פרוייקטים</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div id="pie"></div>
     </div>
-    
-    <div id="pie"></div>
-</div>   
-
 
 
 

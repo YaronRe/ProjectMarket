@@ -7,19 +7,24 @@
 
 <h2>חנות פרויקטים</h2>
 <div class="container">
-        <div class="row">
-           
+    <div class="row">
+
         @foreach (var item in Model)
-        { <div class="col-md-4">
-              <div class="card-content">
-                  <div class="card-desc">
-                      <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                      <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                      @Html.ActionLink("פרטים", "Details", item, new { @class= "btn"})
-                  </div>
-              </div>
-          </div>
-            
+        {<div class="col-md-4">
+                <div class="card-content">
+                    <div class="card-desc">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                        @Html.ActionLink("פרטים", "Details", item, new { @class = "btn" })
+                    </div>
+                </div>
+            </div>
+
         }
-        </div>
-</div>    
+    </div>
+</div>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}

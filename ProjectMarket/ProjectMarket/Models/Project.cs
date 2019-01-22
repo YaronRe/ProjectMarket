@@ -10,16 +10,16 @@ namespace ProjectMarket.Models
 {
     public class Project
     {
-        [Required]
+        [Required(ErrorMessage = "שדה זה הוא חובה")]
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(4)]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "שדה זה הוא חובה")]
+        [MinLength(4,ErrorMessage ="שם הפרויקט לא חייב להיות באורך 4 תווים לפחות")]
+        [MaxLength(50,ErrorMessage ="שם הפרויקט לא יכול לעלות על 50 תווים")]
         [Display(Name = "שם")]
         public string Name { get; set; }
 
-        [MaxLength(300)]
+        [MaxLength(300,ErrorMessage ="תיאור הפרויקט לא יכול לעלות על 300 תווים")]
         [Display(Name = "תאור")]
         public string Description { get; set; }
 
@@ -30,14 +30,16 @@ namespace ProjectMarket.Models
         public int AcademicInstituteId { get; set; }
         [Display(Name ="מוסד אקדמי")]
         public AcademicInstitute AcademicInstitute { get; set; }
-        
+
+        [Required(ErrorMessage = "שדה זה הוא חובה")]
+        [Range(0.0, 10000.0, ErrorMessage = "המחיר חייב להיות בין 0 ל10000")]
         [Display(Name = "מחיר")]
         public double Price { get; set; }
 
         public int OwnerId { get; set; }
         public User Owner { get; set; }
 
-        [MaxLength(300)]
+        [MaxLength(300,ErrorMessage ="אורך כתובת לבירורים לא יכול לעלות על 300 תווים")]
         [Display(Name = "כתובת לברורים")]
         public string Address { get; set; }
         [DefaultValue(false)]

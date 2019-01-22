@@ -9,16 +9,16 @@ namespace ProjectMarket.ViewModels
 {
     public class AuthenticationDetails
     {
-        [Required]
-        [MinLength(4)]
-        [MaxLength(20)]
-        [RegularExpression(@"\w+")]
+        [Required (ErrorMessage = "שדה זה הוא חובה")]
+        [MinLength(4,ErrorMessage ="שם משתמש חייב להיות 4 תווים ומעלה")]
+        [MaxLength(20,ErrorMessage = "שם משתמש חייב להיות פחות מ20 תווים")]
+        [RegularExpression(@"\w+",ErrorMessage ="שם משתמש חייב להיות מורכב רק צאותיות ומספרים")]
         [DisplayName("שם משתמש")]
         public string UserName { get; set; }
 
-        [Required]
-        [MinLength(8)]
-        [MaxLength(200)]
+        [Required(ErrorMessage = "שדה זה הוא חובה")]
+        [MinLength(8,ErrorMessage ="סיסמה חייבת להיות באורך של 8 תווים לפחות")]
+        [MaxLength(200,ErrorMessage ="סיסמה חייבת להיות פחות מ200 תווים")]
         [DataType(DataType.Password)]
         [DisplayName("סיסמה")]
         public string Password { get; set; }

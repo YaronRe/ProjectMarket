@@ -9,13 +9,13 @@ namespace ProjectMarket.ViewModels
 {
     public class UpdateAccountDetails
     {
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "שם פרטי חייב להיות פחות מ20 תווים")]
         [DisplayName("שם פרטי")]
         public string FirstName { get; set; }
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "שם משפחה חייב להיות פחות מ20 תווים")]
         [DisplayName("שם משפחה")]
         public string LastName { get; set; }
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "אנא הכנס כתובת מייל לגיטימית")]
         [DisplayName("E-Mail")]
         public string EMail { get; set; }
     }

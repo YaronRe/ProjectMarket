@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMarket.Models;
 
 namespace ProjectMarket.Migrations
 {
     [DbContext(typeof(ProjectMarketContext))]
-    partial class ProjectMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20190122200400_pasten")]
+    partial class pasten
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +80,10 @@ namespace ProjectMarket.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<double>("LocationLatitude");
+
+                    b.Property<double>("LocationLongitude");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -97,14 +103,14 @@ namespace ProjectMarket.Migrations
                     b.ToTable("Project");
 
                     b.HasData(
-                        new { Id = 1, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, Name = "DeletedOfUser", OwnerId = 2, Price = 10.0 },
-                        new { Id = 2, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, Name = "DeletedOfDelUser", OwnerId = 6, Price = 20.0 },
-                        new { Id = 3, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, Name = "Sold", OwnerId = 5, Price = 30.0 },
-                        new { Id = 4, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, Name = "NotSold", OwnerId = 4, Price = 40.0 },
-                        new { Id = 5, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, Name = "SoldAndDeleted", OwnerId = 4, Price = 50.0 },
-                        new { Id = 6, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, Name = "SoldMultiple", OwnerId = 4, Price = 60.0 },
-                        new { Id = 7, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, Name = "Graded", OwnerId = 4, Price = 60.0 },
-                        new { Id = 8, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, Name = "NotGraded", OwnerId = 4, Price = 60.0 }
+                        new { Id = 1, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "DeletedOfUser", OwnerId = 2, Price = 10.0 },
+                        new { Id = 2, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "DeletedOfDelUser", OwnerId = 6, Price = 20.0 },
+                        new { Id = 3, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "Sold", OwnerId = 5, Price = 30.0 },
+                        new { Id = 4, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "NotSold", OwnerId = 4, Price = 40.0 },
+                        new { Id = 5, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = true, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "SoldAndDeleted", OwnerId = 4, Price = 50.0 },
+                        new { Id = 6, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "SoldMultiple", OwnerId = 4, Price = 60.0 },
+                        new { Id = 7, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "Graded", OwnerId = 4, Price = 60.0 },
+                        new { Id = 8, AcademicInstituteId = 1, Description = "", FieldOfStudyId = 2, IsDeleted = false, LocationLatitude = 0.0, LocationLongitude = 0.0, Name = "NotGraded", OwnerId = 4, Price = 60.0 }
                     );
                 });
 
@@ -143,18 +149,17 @@ namespace ProjectMarket.Migrations
                     b.HasData(
                         new { Id = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Price = 0.0, ProjectId = 3 },
                         new { Id = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Price = 0.0, ProjectId = 4 },
-                        new { Id = 3, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 2 },
+                        new { Id = 3, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 1, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 2 },
+                        new { Id = 4, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 6 },
                         new { Id = 5, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 3 },
                         new { Id = 6, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 5 },
-                        new { Id = 4, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 6 },
                         new { Id = 7, AcademicInstituteId = 1, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Grade = 80, Price = 0.0, ProjectId = 7, Rank = 4 },
                         new { Id = 8, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 3, Price = 0.0, ProjectId = 8 },
+                        new { Id = 9, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 },
                         new { Id = 10, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 3, Rank = 3 },
                         new { Id = 11, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 3 },
-                        new { Id = 9, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 5, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 },
                         new { Id = 12, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 3, Rank = 3 },
-                        new { Id = 13, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 3 },
-                        new { Id = 14, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 6, Rank = 3 }
+                        new { Id = 13, AcademicInstituteId = 2, AcceptedByBuyer = false, AcceptedBySeller = false, BuyerId = 6, Grade = 70, Price = 0.0, ProjectId = 5, Rank = 3 }
                     );
                 });
 

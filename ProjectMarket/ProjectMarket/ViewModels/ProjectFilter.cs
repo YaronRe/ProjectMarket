@@ -8,7 +8,7 @@ namespace ProjectMarket.ViewModels
 {
     public class ProjectFilter
     {
-        [MaxLength(50)]
+        [MaxLength(50,ErrorMessage ="אורך שם פרויקט לא יכול לעלות על 50")]
         [Display(Name = "שם")]
         public string Name { get; set; }
         [Display(Name = "מחיר מינימום")]

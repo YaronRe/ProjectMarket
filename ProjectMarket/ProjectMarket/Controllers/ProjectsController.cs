@@ -1,10 +1,9 @@
-﻿﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Accord.MachineLearning.Rules;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMarket.Models;
 using ProjectMarket.ViewModels;
@@ -31,7 +30,7 @@ namespace ProjectMarket.Controllers
                 (from p in _context.Project
                  join u in _context.User on p.OwnerId equals u.Id
                  join s in _context.Sale on p.Id equals s.ProjectId
-                 group new { s.Grade,s.Rank } by new { s.ProjectId ,p.Description,p.Name} into proj
+                 group new { s.Grade, s.Rank } by new { s.ProjectId, p.Description, p.Name } into proj
                  select new ProjectInStoreView()
                  {
                      Id = proj.Key.ProjectId,
@@ -42,40 +41,40 @@ namespace ProjectMarket.Controllers
                  });
             return View(projects);
         }
-        
+
         public async Task<IActionResult> FieldOfStudy(int id)
         {
             return View(await _context.Project.Where(x => x.FieldOfStudyId == id).ToListAsync());
         }
-        
-       
+
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Filter(ProjectFilter filter)
         {
             bool includeDeleted = filter.IncludeDeleted && ClaimsExtension.IsAdmin(HttpContext);
-            
+
             var projectsGroup =
                 (from project in _context.Project
-                    join user in _context.User on project.OwnerId equals user.Id
-                    join sale in _context.Sale on project.Id equals sale.ProjectId into sales
-                    from subsale in sales.DefaultIfEmpty()
-                    where ((includeDeleted || (!project.IsDeleted && !user.IsDeleted)) &&
-                           (!filter.UserId.HasValue || project.OwnerId == filter.UserId.Value) &&
-                           project.Name.Contains(filter.Name ?? "") &&
-                           (!filter.MaxPrice.HasValue || project.Price <= filter.MaxPrice.Value) &&
-                           (!filter.MinPrice.HasValue || project.Price >= filter.MinPrice.Value) &&
-                           (!filter.FieldOfStudyId.HasValue || project.FieldOfStudyId == filter.FieldOfStudyId.Value)
-                        )
+                 join user in _context.User on project.OwnerId equals user.Id
+                 join sale in _context.Sale on project.Id equals sale.ProjectId into sales
+                 from subsale in sales.DefaultIfEmpty()
+                 where ((includeDeleted || (!project.IsDeleted && !user.IsDeleted)) &&
+                        (!filter.UserId.HasValue || project.OwnerId == filter.UserId.Value) &&
+                        project.Name.Contains(filter.Name ?? "") &&
+                        (!filter.MaxPrice.HasValue || project.Price <= filter.MaxPrice.Value) &&
+                        (!filter.MinPrice.HasValue || project.Price >= filter.MinPrice.Value) &&
+                        (!filter.FieldOfStudyId.HasValue || project.FieldOfStudyId == filter.FieldOfStudyId.Value)
+                     )
                  select new
-                    {
-                        Id = project.Id,
-                        Description = project.Description,
-                        Name = project.Name,
-                        Grade = subsale.Grade,
-                        Rank = subsale.Rank
-                    })
-                .GroupBy( x=> new {x.Id,x.Description,x.Name});
+                 {
+                     Id = project.Id,
+                     Description = project.Description,
+                     Name = project.Name,
+                     Grade = subsale.Grade,
+                     Rank = subsale.Rank
+                 })
+                .GroupBy(x => new { x.Id, x.Description, x.Name });
 
             List<ProjectInStoreView> projects = new List<ProjectInStoreView>();
             foreach (var group in projectsGroup)
@@ -103,11 +102,27 @@ namespace ProjectMarket.Controllers
                 return NotFound();
             }
 
+            // Machine learning is awesome!
+
+            List<IGrouping<int, int>> projectIdsPerUsersGroups = _context.Sale.Include("Project").Where(x => !x.Project.IsDeleted).GroupBy(x => x.BuyerId,y => y.ProjectId).ToList();
+            SortedSet<int>[] projectsPerUserDataset = new SortedSet<int>[projectIdsPerUsersGroups.Count];
+            int idx = 0;
+            foreach (var group in projectIdsPerUsersGroups)
+            {
+                projectsPerUserDataset[idx++] = new SortedSet<int>(group);
+            }
+
+            Apriori apriori = new Apriori(threshold: 3, confidence: 0);
+            AssociationRuleMatcher<int> classifier = apriori.Learn(projectsPerUserDataset);
+            AssociationRule<int>[] rules = classifier.Rules;
+
+            ViewData["suggested"] = rules.Where(x => x.Y.First() != id).Select(x => _context.Project.First(y=>y.Id == x.Y.First()));
+
             var project = await _context.Project
                 .Include(x => x.AcademicInstitute)
                 .Include(x => x.FieldOfStudy)
                 .Include(x => x.Owner)
-                .FirstOrDefaultAsync(m => m.Id == id && 
+                .FirstOrDefaultAsync(m => m.Id == id &&
                                     ((!m.Owner.IsDeleted && !m.IsDeleted) || ClaimsExtension.IsAdmin(HttpContext)));
             if (project == null)
             {

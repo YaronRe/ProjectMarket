@@ -14,7 +14,7 @@
             </header>
             <div class="project-info">
                 <h3>@Html.DisplayNameFor(model => model.UserName)</h3>
-                @Html.DisplayFor(model => model.UserName)               
+                @Html.DisplayFor(model => model.UserName)
                 <h3> @Html.DisplayNameFor(model => model.FirstName)</h3>
                 @Html.DisplayFor(model => model.FirstName)
                 <h3>@Html.DisplayNameFor(model => model.LastName)</h3>
@@ -33,6 +33,10 @@
             </aside>
         </div>
     </div>
-    
+
 </section>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
 

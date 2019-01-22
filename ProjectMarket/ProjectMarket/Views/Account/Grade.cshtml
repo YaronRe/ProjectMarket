@@ -6,29 +6,26 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">קניית פרוייקט</h4>
             </div>
-            <div class="modal-body">
 
-            </div>
 
-            <div class="modal-footer">
-                <form asp-controller="Sales" asp-action="Grade" class="form-inline">
+            <form asp-controller="Sales" asp-action="Grade" class="form-inline">
+                <div class="modal-body">
                     <div class="form-group">
                         <label asp-for="Grade" class="control-label"></label>
-                        <input asp-for="Grade" class="form-control" />
+                        <input asp-for="Grade" class="form-control"/>
                         <span asp-validation-for="Grade" class="text-danger"></span>
                         <label asp-for="Rank" class="control-label"></label>
-                        <input asp-for="Rank" class="form-control" />
+                        <input asp-for="Rank" class="form-control"/>
                         <span asp-validation-for="Rank" class="text-danger"></span>
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input asp-for="Id" type="hidden" class="saleId" />
-
-                    <div class="form-group">
-                        <input type="submit" value="עדכן" class="btn btn-lg btn-primary btn-block" />
-                        <button type="button" class="btn" data-dismiss="modal">סגור</button>                    
-                    </div>
-                </form>
-            </div>
+                    <input asp-for="Id" type="hidden" class="saleId"/>
+                </div>
+                <div class="modal-btn">
+                    <input type="submit" value="עדכן" class="btn"/>
+                    <button type="button" class="btn" data-dismiss="modal">סגור</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

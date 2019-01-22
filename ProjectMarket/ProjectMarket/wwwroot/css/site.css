@@ -110,3 +110,8 @@ a.btn-card {
 .col-md-4 {
     padding-top: 30px;
 }
+
+.modal-btn {
+    direction: ltr; 
+    padding: 20px;
+}

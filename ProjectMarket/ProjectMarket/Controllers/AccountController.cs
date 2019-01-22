@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -66,6 +68,10 @@ namespace ProjectMarket.Controllers
         {
             try
             {
+                byte[] passwordBytes = Encoding.ASCII.GetBytes(authDetails.Password);
+                SHA512 shaM = new SHA512Managed();
+                authDetails.Password = Encoding.ASCII.GetString(shaM.ComputeHash(passwordBytes));
+
                 var authenticatedUser = Login(authDetails);
                 if (authenticatedUser == null)
                 {
@@ -144,6 +150,9 @@ namespace ProjectMarket.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    byte[] passwordBytes = Encoding.ASCII.GetBytes(regDetails.Password);
+                    SHA512 shaM = new SHA512Managed();
+                    regDetails.Password = Encoding.ASCII.GetString(shaM.ComputeHash(passwordBytes));
                     var user = Register(regDetails);
                     _context.Add(user);
                     await _context.SaveChangesAsync();

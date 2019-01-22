@@ -64,12 +64,15 @@
                 תיאור
             </th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
 
             @foreach (var item in ((IReadOnlyCollection<Project>)ViewData["MyProjects"]))
             {
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -78,9 +81,16 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">עריכה</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">פרטים</a> |
+                        <a asp-controller="Projects" asp-action="Edit" asp-route-id="@item.Id">עריכה</a> 
                     </td>
+                    <td>                     
+                        <a asp-controller="Projects" asp-action="Details" asp-route-id="@item.Id">פרטים</a> 
+                    </td>
+                    <td>
+                        <a asp-controller="Projects" asp-action="Delete" asp-route-id="@item.Id">מחק</a> 
+
+                    </td>
+               
                 </tr>
             }
 

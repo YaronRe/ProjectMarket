@@ -1,5 +1,6 @@
 ﻿@using Microsoft.CodeAnalysis
 @using Project = ProjectMarket.Models.Project
+@using ProjectMarket.ViewModels;
 @model ProjectMarket.Models.User
 
 @{
@@ -52,146 +53,148 @@
 <div class="card-content">
     @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Project>)ViewData["MyProjects"]).Count() > 0)
     {
-<div class="card-desc">
-    <h3>הפרויקטים שלי</h3>
-</div>
+        <div class="card-desc">
+            <h3>הפרויקטים שלי</h3>
+        </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                שם הפרויקט
-            </th>
-            <th>
-                תיאור
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-            @foreach (var item in ((IReadOnlyCollection<Project>)ViewData["MyProjects"]))
-            {
-
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        <a asp-controller="Projects" asp-action="Edit" asp-route-id="@item.Id">עריכה</a> 
-                    </td>
-                    <td>                     
-                        <a asp-controller="Projects" asp-action="Details" asp-route-id="@item.Id">פרטים</a> 
-                    </td>
-                    <td>
-                        <a asp-controller="Projects" asp-action="Delete" asp-route-id="@item.Id">מחק</a> 
-
-                    </td>
-               
+                    <th>
+                        שם הפרויקט
+                    </th>
+                    <th>
+                        תיאור
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }
+            </thead>
+            <tbody>
 
-    </tbody>
-    </table>
-        }
-        else
-        {
-            <div class="card-desc">
-                <h3> עוד לא יצרת פרויקטים </h3>
-            </div>
-        }
-<div class="card-desc">
-    <a class="btn btn-primary btn-lg"  asp-controller="Projects" asp-action="Create" data-toggle="modal">
-        הוספת פרויקט
-    </a>
+                @foreach (var item in ((IReadOnlyCollection<Project>)ViewData["MyProjects"]))
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <a asp-controller="Projects" asp-action="Edit" asp-route-id="@item.Id">עריכה</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Projects" asp-action="Details" asp-route-id="@item.Id">פרטים</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Projects" asp-action="Delete" asp-route-id="@item.Id">מחק</a>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="card-desc">
+            <h3> עוד לא יצרת פרויקטים </h3>
+        </div>
+    }
+    <div class="card-desc">
+        <a class="btn btn-primary btn-lg" asp-controller="Projects" asp-action="Create" data-toggle="modal">
+            הוספת פרויקט
+        </a>
     </div>
 </div>
 
- 
+
 
 
 <div class="card-content">
-@if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Sale>) ViewData["PurchasedProjects"]).Count() > 0)
-{
-    <div class="card-desc">
-        <h3>הפרויקטים שקניתי</h3>
-    </div>
+    @if (ViewData["MyProjects"] != null && ((IReadOnlyCollection<Sale>)ViewData["PurchasedProjects"]).Count() > 0)
+    {
+        <div class="card-desc">
+            <h3>הפרויקטים שקניתי</h3>
+        </div>
 
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                שם הפרויקט
-            </th>
-            <th>
-                תיאור
-            </th>
-            <th>מחיר קניה</th>
-            <th>דירוג</th>
-            <th>ציון</th>
-        </tr>
-        </thead>
-        <tbody>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        שם הפרויקט
+                    </th>
+                    <th>
+                        תיאור
+                    </th>
+                    <th>מחיר קניה</th>
+                    <th>דירוג</th>
+                    <th>ציון</th>
+                </tr>
+            </thead>
+            <tbody>
 
-            @foreach (var item in ((IReadOnlyCollection<Sale>) ViewData["PurchasedProjects"]))
-             {
-                 <tr>
-                     <td>
-                         @Html.DisplayFor(modelItem => item.Project.Name)
-                     </td>
-                     <td>
-                         @Html.DisplayFor(modelItem => item.Project.Description)
-                     </td>
-                     <td>
-                         @Html.DisplayFor(modelItem => item.Price) ש"ח
-                     </td>
-            @if (item.Rank == null)
-            {
-                <td colspan="2">
-                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-sale-id="@item.Id" data-target="#myModal">
-                        עדכן
-                    </button>
-                </td>
-            }
-            else
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rank)
-                </td>
-                <td>
-  
-                    @Html.DisplayFor(modelItem => item.Grade)
-                </td>
-            }
-                  
-            </tr>
-             }
+                @foreach (var item in ((IReadOnlyCollection<Sale>)ViewData["PurchasedProjects"]))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price) ש"ח
+                        </td>
+                        @if (item.Rank == null)
+                        {
+                            <td colspan="2">
+                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-sale-id="@item.Id" data-target="#myModal">
+                                    עדכן
+                                </button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rank)
+                            </td>
+                            <td>
 
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="card-desc">
-        <h3> עוד לא רכשת פרויקטים </h3>
-    </div>
-}
+                                @Html.DisplayFor(modelItem => item.Grade)
+                            </td>
+                        }
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="card-desc">
+            <h3> עוד לא רכשת פרויקטים </h3>
+        </div>
+    }
 </div>
 
 
 <!-- Modal -->
-<partial name="Grade" model="new Sale()"/>
+<partial name="Grade" model="new GradeView()" />
+
 
 @section Scripts
 {
+    <partial name="_ValidationScriptsPartial" />
     <script>
-        $('#myModal').on('show.bs.modal', function(e) {
+        $('#myModal').on('show.bs.modal', function (e) {
 
             //get data-id attribute of the clicked element
             var saleId = $(e.relatedTarget).data('sale-id');

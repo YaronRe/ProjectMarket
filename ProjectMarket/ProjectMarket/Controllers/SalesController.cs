@@ -183,7 +183,7 @@ namespace ProjectMarket.Controllers
         {
             var Sale = _context.Sale.Find(sale.Id);
 
-            if (Sale != null)
+            if (Sale == null)
             {
                 return NotFound();
             }
@@ -191,6 +191,7 @@ namespace ProjectMarket.Controllers
             Sale.Grade = sale.Grade;
             Sale.Rank = sale.Rank;
             _context.Sale.Update(Sale);
+            _context.SaveChanges();
             return RedirectToAction("Index", "Account");
         }
     }

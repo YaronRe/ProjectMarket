@@ -28,7 +28,7 @@
                     <li><a asp-area="" asp-controller="Projects" asp-action="Index">חנות</a></li>
                     @if (Context.User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Account" asp-action="Index">ניהול חשבון</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Index">החשבון שלי</a></li>
                     }
                     @if (ClaimsExtension.IsAdmin(Context))
                     {

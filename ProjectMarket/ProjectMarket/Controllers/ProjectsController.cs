@@ -258,5 +258,22 @@ namespace ProjectMarket.Controllers
         {
             return _context.Project.Any(e => e.Id == id);
         }
+        
+        public ActionResult Statistics(int? id) {
+            var project = _context.Project.First(m => m.Id == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return Json(_context.Sale.Where(x => x.ProjectId == id && x.Grade.HasValue ).
+                GroupBy(sale => sale.Grade.Value)
+                .Select(g => new Dictionary<string, dynamic>()
+                {
+                    {"label", g.Key.ToString()},
+                    {"value", g.Count()}
+                }));
+        }
+
     }
 }

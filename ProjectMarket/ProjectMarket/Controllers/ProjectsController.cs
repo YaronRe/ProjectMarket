@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accord.MachineLearning.Rules;
@@ -93,6 +94,12 @@ namespace ProjectMarket.Controllers
                 proj.AvgGrade = grades.Any() ? new double?(grades.Select(x => (double)x.Grade.Value).Average()) : null;
                 var ranks = group.Where(x => x.Rank.HasValue);
                 proj.Rank = ranks.Any() ? new double?(ranks.Select(x => (double)x.Rank.Value).Average()) : null;
+                if (proj.AvgGrade.HasValue)
+                {
+                    proj.AvgGrade = (float)(Math.Round((double)proj.AvgGrade, 2));
+                    proj.Rank = (float)(Math.Round((double)proj.Rank, 2));
+
+                }
                 projects.Add(proj);
             }
             return Json(projects);

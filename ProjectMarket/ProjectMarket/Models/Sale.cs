@@ -12,6 +12,7 @@ namespace ProjectMarket.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "שדה זה הוא חובה")]
         [Range(0.0, 10000.0,ErrorMessage ="המחיר חייב להיות בין 0 ל10000")]
+        [Display(Name = "מחיר")]
         public double Price { get; set; }
         [Range(1, 5,ErrorMessage ="הדירוג הוא בין 1 ל5")]
         [Display(Name = "דירוג")]

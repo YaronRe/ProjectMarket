@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Accord.MachineLearning.Rules;
@@ -72,9 +73,11 @@ namespace ProjectMarket.Controllers
                      Description = project.Description,
                      Name = project.Name,
                      Grade = subsale.Grade,
-                     Rank = subsale.Rank
+                     Rank = subsale.Rank,
+                     OwnerName = user.FullName,
+                     OwnerId = user.Id
                  })
-                .GroupBy(x => new { x.Id, x.Description, x.Name });
+                .GroupBy(x => new { x.Id, x.Description, x.Name, x.OwnerName, x.OwnerId });
 
             List<ProjectInStoreView> projects = new List<ProjectInStoreView>();
             foreach (var group in projectsGroup)
@@ -83,12 +86,20 @@ namespace ProjectMarket.Controllers
                 {
                     Id = group.Key.Id,
                     Description = group.Key.Description,
-                    Name = group.Key.Name
+                    Name = group.Key.Name,
+                    OwnerName = group.Key.OwnerName,
+                    OwnerId = group.Key.OwnerId
                 };
                 var grades = group.Where(x => x.Grade.HasValue);
                 proj.AvgGrade = grades.Any() ? new double?(grades.Select(x => (double)x.Grade.Value).Average()) : null;
                 var ranks = group.Where(x => x.Rank.HasValue);
                 proj.Rank = ranks.Any() ? new double?(ranks.Select(x => (double)x.Rank.Value).Average()) : null;
+                if (proj.AvgGrade.HasValue)
+                {
+                    proj.AvgGrade = (float)(Math.Round((double)proj.AvgGrade, 2));
+                    proj.Rank = (float)(Math.Round((double)proj.Rank, 2));
+
+                }
                 projects.Add(proj);
             }
             return Json(projects);

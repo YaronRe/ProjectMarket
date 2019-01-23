@@ -163,16 +163,29 @@ namespace ProjectMarket.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == ClaimsExtension.GetUserId(HttpContext));
+            User user = null;
+            if (id.HasValue)
+            {
+                user = await _context.User
+                    .FirstOrDefaultAsync(m => m.Id == id.Value);
+            }
+            else
+            {
+                user = await _context.User
+                    .FirstOrDefaultAsync(m =>  m.Id == ClaimsExtension.GetUserId(HttpContext));
+            }
+            
             ViewData["MyProjects"] = _context.Project.Where(proj => proj.OwnerId == user.Id && !proj.IsDeleted).ToList();
             ViewData["PurchasedProjects"] = _context.Sale.Where(sale => sale.BuyerId == user.Id).Include(sale => sale.Project).ToList();
             if (user == null)
             {
                 return NotFound();
             }
+
+            ViewData["is_owner"] = user.Id == ClaimsExtension.GetUserId(HttpContext);
+            
 
             return View(user);
         }

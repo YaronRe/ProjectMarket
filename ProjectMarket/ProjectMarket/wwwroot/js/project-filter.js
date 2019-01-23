@@ -64,6 +64,8 @@
                                             ${grade}
                                     </div>
                                     <div class="card-body">
+                                        מאת:
+                                        <a href="/Account/index/${item.ownerId}" target="_blank"> ${item.ownerName}</a>
                                         ${descHtml}
                                     </div>
                                     <div class="row modal-btn">

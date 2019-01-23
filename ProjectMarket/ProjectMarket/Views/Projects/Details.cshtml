@@ -33,6 +33,7 @@
                 <span id="PriceInEUR">טוען...</span> &euro;<br />
                 <h3>כתובת לבירורים</h3>
                 <div id="details_address_name">@Html.DisplayFor(model => model.Address)</div>
+                <div id="map"></div>
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                     קנה
                 </button>
@@ -54,7 +55,6 @@
                         }
                     </ul>
                 }
-                <div id="map"></div>
             </div>
         </div>
         <div class="col-md-3">

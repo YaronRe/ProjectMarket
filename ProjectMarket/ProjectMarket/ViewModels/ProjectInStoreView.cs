@@ -12,6 +12,7 @@ namespace ProjectMarket.ViewModels
         public string Name { get; set; }
         public string Description { get; set; }
         public string OwnerName { get; set; }
+        public int OwnerId { get; set; }
         public double? AvgGrade { get; set; }
         public double? Rank { get; set; }
     }

@@ -5,12 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-
+using System.Text;
 
 namespace ProjectMarket.Models
 {
     public class User
     {
+        private static object authDetails;
         private string _password;
 
         [Required(ErrorMessage = "שדה זה הוא חובה")]
@@ -58,8 +59,9 @@ namespace ProjectMarket.Models
 
         public static string HashPassword(string password)
         {
-            // TODO implement
-            return password;
+            byte[] passwordBytes = Encoding.ASCII.GetBytes(password);
+            SHA512 shaM = new SHA512Managed();
+            return Encoding.ASCII.GetString(shaM.ComputeHash(passwordBytes));
         }
     }
 }

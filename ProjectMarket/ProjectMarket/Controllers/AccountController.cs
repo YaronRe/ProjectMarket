@@ -40,7 +40,7 @@ namespace ProjectMarket.Controllers
 
         private User Login(AuthenticationDetails details)
         {
-            return _context.User.FirstOrDefault(user => user.UserName == details.UserName && user.Password == details.Password);
+            return _context.User.FirstOrDefault(user => user.UserName == details.UserName && user.Password == Models.User.HashPassword(details.Password));
         }
         private User UserForChangePassword(string password)
         {
@@ -68,10 +68,6 @@ namespace ProjectMarket.Controllers
         {
             try
             {
-                byte[] passwordBytes = Encoding.ASCII.GetBytes(authDetails.Password);
-                SHA512 shaM = new SHA512Managed();
-                authDetails.Password = Encoding.ASCII.GetString(shaM.ComputeHash(passwordBytes));
-
                 var authenticatedUser = Login(authDetails);
                 if (authenticatedUser == null)
                 {
@@ -150,9 +146,6 @@ namespace ProjectMarket.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    byte[] passwordBytes = Encoding.ASCII.GetBytes(regDetails.Password);
-                    SHA512 shaM = new SHA512Managed();
-                    regDetails.Password = Encoding.ASCII.GetString(shaM.ComputeHash(passwordBytes));
                     var user = Register(regDetails);
                     _context.Add(user);
                     await _context.SaveChangesAsync();

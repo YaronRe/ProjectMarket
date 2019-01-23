@@ -42,14 +42,14 @@ namespace ProjectMarket.Models
                 new FieldOfStudy() { Id = 3, Name = "פיזיקה" }
             );
             modelBuilder.Entity<Project>().HasData(
-                new Project() { Id = 1, Name = "DeletedOfUser", OwnerId = 2, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = true, Price = 10.0 },
-                new Project() { Id = 2, Name = "DeletedOfDelUser", OwnerId = 6, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = true, Price = 20.0 },
-                new Project() { Id = 3, Name = "Sold", OwnerId = 5, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 30.0 },
-                new Project() { Id = 4, Name = "NotSold", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 40.0 },
-                new Project() { Id = 5, Name = "SoldAndDeleted", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = true, Price = 50.0 },
-                new Project() { Id = 6, Name = "SoldMultiple", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 60.0 },
-                new Project() { Id = 7, Name = "Graded", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 60.0 },
-                new Project() { Id = 8, Name = "NotGraded", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 60.0 }
+                new Project() { Id = 1, Name = "DeletedOfUser", OwnerId = 2, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = true, Price = 10.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 2, Name = "DeletedOfDelUser", OwnerId = 6, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = true, Price = 20.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 3, Name = "Sold", OwnerId = 5, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 30.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 4, Name = "NotSold", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 40.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 5, Name = "SoldAndDeleted", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = true, Price = 50.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 6, Name = "SoldMultiple", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 60.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 7, Name = "Graded", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 60.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" },
+                new Project() { Id = 8, Name = "NotGraded", OwnerId = 4, Description = "", AcademicInstituteId = 1, FieldOfStudyId = 2, IsDeleted = false, Price = 60.0, Address = "המכללה למנהל בני ברק, רח' זאב ז'בוטינסקי, בני ברק, ישראל" }
                 );
             modelBuilder.Entity<Sale>().HasData(
                 new Sale() { Id = 1,  ProjectId = 3, BuyerId = 1, Price = 0.0, AcademicInstituteId = null, Rank = null, Grade = null },
